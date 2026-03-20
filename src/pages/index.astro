@@ -9,6 +9,9 @@ import FeaturedBooks from '@components/FeaturedBooks.astro'
 import { Accordion, AccordionItem, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { parse } from 'node-html-parser'
+import { books } from '@utils/books'
+import firstImage from '../assets/img/picture/event.jpg'
+import secondImage from '../assets/img/picture/books.png'
 
 // Calculate activity months since 2024/05/07
 const startDate = new Date('2024-05-07')
@@ -46,6 +49,8 @@ try {
 } catch (error) {
   console.error('Error scraping Connpass:', error)
 }
+
+const bookCount = books.length.toString()
 ---
 
 <DefaultLayout title="エンジニアニメ - エンジニアとアニメを繋ぐポータルサイト" useTitleTemplate={false}>
@@ -58,7 +63,7 @@ try {
           「アニメから得た学びをエンジニア同士で語り合う」をコンセプトに、エンジニアのモチベーション維持やキャリア形成に繋がる交流の場を運営しています。
         </Feature>
         <Feature icon="lucide:calendar" title="勉強会の実施">
-          勉強会「アニメから得た学びを発表会」をはじめ、アニメの聖地や都内で平日夜にLT会など、多様な場所や規模で開催しています。
+          勉強会「アニメから得た学びを発表会」をはじめ、アニメの聖地や都内で平日夜に勉強会など、多様な場所や規模で開催しています。
         </Feature>
         <Feature icon="lucide:book-open" title="同人誌の作成">
           技術書典などのイベントと連動し、アニメと技術を掛け合わせた知見やコミュニティの活動をまとめた技術同人誌の制作・頒布を行っています。
@@ -66,13 +71,13 @@ try {
       </div>
     </div>
   </section>
-  <ContentMedia imgSrc="/accessible-components.webp">
+  <ContentMedia imgSrc={firstImage.src}>
     <Heading level="h2">勉強会を開催</Heading>
     <p class="text-2xl">
       「アニメから得た学びを発表会」をはじめとした、勉強会を展開しています。エンジニア独自の視点でアニメを深掘りし、新しい気づきを共有する場を提供しています。
     </p>
   </ContentMedia>
-  <ContentMedia imgSrc="/wcag-compliant.webp" reverseImg={true}>
+  <ContentMedia imgSrc={secondImage.src} reverseImg={true}>
     <Heading level="h2">同人誌の制作</Heading>
     <p class="text-2xl">
       技術書典などのイベントにて、アニメとエンジニアリングを掛け合わせた技術同人誌を制作・頒布しています。コミュニティの集合知を一冊の本として形にしています。
@@ -135,9 +140,10 @@ try {
   <section class="mt-64 mb-32">
     <div class="container">
       <Heading level="h2" class="mb-16">数字で見るエンジニアニメ</Heading>
-      <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3">
+      <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
         <Counter count={memberCount} title="Members" sub="コミュニティ人数" />
         <Counter count={eventCount} title="Events" sub="累計イベント開催数" />
+        <Counter count={bookCount} title="Books" sub="発行した同人誌の冊数" />
         <Counter count={activityMonths} title="Months" sub="活動期間" />
       </div>
     </div>

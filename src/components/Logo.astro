@@ -14,16 +14,36 @@ interface Props {
    * @default 'eager'
    */
   loading?: 'eager' | 'lazy'
+  /**
+   * Whether to wrap the logo in a link to the homepage
+   * @default true
+   */
+  isLink?: boolean
 }
 
-const { loading = 'eager' }: Props = Astro.props
+const { loading = 'eager', isLink = true }: Props = Astro.props
 ---
 
-<Link href="/" class="flex items-center gap-2">
-  {
-    themeConfig.logo && (
-      <Image src={themeConfig.logo} alt="" aria-hidden="true" height="40" inferSize loading={loading} />
-    )
+{
+  isLink ? (
+    <Link href="/" class="flex items-center gap-2">
+      {themeConfig.logo && <Image src={themeConfig.logo} alt="" aria-hidden="true" height="32" inferSize loading={loading} />}
+      <span class="text-gradient text-sm font-bold sm:text-lg">{themeConfig.name}</span>
+    </Link>
+  ) : (
+    <div class="flex items-center gap-2">
+      {themeConfig.logo && <Image src={themeConfig.logo} alt="" aria-hidden="true" height="32" inferSize loading={loading} />}
+      <span class="text-gradient text-sm font-bold sm:text-lg">{themeConfig.name}</span>
+    </div>
+  )
+}
+
+<style lang="scss">
+  .text-gradient {
+    background: linear-gradient(315deg, #ff8c00 25%, #ffd700);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
   }
-  <span class="text-sm font-bold sm:text-lg">{themeConfig.name}</span>
-</Link>
+</style>

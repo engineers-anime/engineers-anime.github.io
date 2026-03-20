@@ -2,6 +2,7 @@
 import { Card, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { parse } from 'node-html-parser'
+import { books } from '@utils/books'
 
 /**
  * FeaturedBooks Component
@@ -21,17 +22,6 @@ interface Props {
 }
 
 const { class: className, title = '発行した同人誌' } = Astro.props
-
-const books = [
-  {
-    url: 'https://engineers-anime.booth.pm/items/7666750',
-    id: '7666750',
-  },
-  {
-    url: 'https://engineers-anime.booth.pm/items/7666770',
-    id: '7666770',
-  },
-]
 
 const bookDetails = await Promise.all(
   books.map(async (book) => {
