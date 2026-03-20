@@ -7,9 +7,10 @@ export default defineThemeConfig({
   id: 'engineers-anime-portal',
   logo: logoImage,
   seo: {
-    title: 'エンジニアニメ - エンジニアとアニメを繋ぐコミュニティ',
-    description: 'エンジニアニメは、アニメ好きのエンジニアが集まり、技術と情熱を共有するポータルサイトです。',
-    author: 'Engineers Anime Community',
+    title: 'エンジニアニメ - アニメから得た学びをエンジニアの知見へ',
+    description:
+      'アニメから得た学びをエンジニア同士で語り合う、モチベーションと技術が交差するコミュニティ。定期的な勉強会や技術同人誌の制作を通じて、アニメの情熱をエンジニアの成長へと繋げます。',
+    author: 'エンジニアニメ',
     image: previewImage, // Can also be a string e.g. '/social-preview-image.png',
   },
   colors: {
