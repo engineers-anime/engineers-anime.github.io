@@ -39,6 +39,9 @@ export type ThemeConfig = {
     description?: string
     author?: string
     image?: ImageMetadata | string | null
+    twitter?: string
+    siteName?: string
+    locale?: string
   }
   colors: {
     primary: string

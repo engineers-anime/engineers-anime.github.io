@@ -1,5 +1,4 @@
 import { defineThemeConfig } from '@utils/defineThemeConfig'
-import previewImage from '@assets/img/social-preview-image.png'
 import logoImage from '@assets/img/logo.svg'
 
 export default defineThemeConfig({
@@ -7,11 +6,14 @@ export default defineThemeConfig({
   id: 'engineers-anime-portal',
   logo: logoImage,
   seo: {
-    title: 'エンジニアニメ - アニメから得た学びをエンジニアの知見へ',
+    title: 'エンジニアニメ',
     description:
       'アニメから得た学びをエンジニア同士で語り合う、モチベーションと技術が交差するコミュニティ。定期的な勉強会や技術同人誌の制作を通じて、アニメの情熱をエンジニアの成長へと繋げます。',
     author: 'エンジニアニメ',
-    image: previewImage, // Can also be a string e.g. '/social-preview-image.png',
+    image: '/social-preview-image.png',
+    twitter: '@engineers_anime',
+    siteName: 'エンジニアニメ',
+    locale: 'ja_JP',
   },
   colors: {
     primary: '#ff8c00',

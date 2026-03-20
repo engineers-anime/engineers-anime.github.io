@@ -95,12 +95,21 @@ const imageUrl = new URL(imagePath, Astro.site).href
           image: imageUrl,
           url: url,
         },
+        image: {
+          alt: title,
+          width: 1200,
+          height: 630,
+        },
         optional: {
           description: description,
+          siteName: themeConfig.seo.siteName,
+          locale: themeConfig.seo.locale,
         },
       }}
       twitter={{
         card: 'summary_large_image',
+        site: themeConfig.seo.twitter,
+        creator: themeConfig.seo.twitter,
         title: title,
         description: description,
         image: imageUrl,
