@@ -1,13 +1,13 @@
 ---
-title: Voice-First Smart Home Assistant
-author: John Doe
-description: A comprehensive smart home solution designed specifically for users with visual impairments, featuring voice-first interactions and haptic feedback
-tags: ['Accessibility', 'Smart-Home', 'IoT']
+title: アニメレコメンドエンジン「NikoNiko」
+author: エンジニアニメ 開発チーム
+description: ユーザーの視聴履歴と好みを分析し、次に観るべきアニメを提案する高度なアルゴリズムを搭載したレコメンドエンジン。
+tags: ['機械学習', 'Python', 'アニメデータ分析']
 ---
 
-## Project Overview
+## プロジェクト概要
 
-Our team developed an inclusive smart home solution that makes home automation accessible to everyone, with a special focus on users with visual impairments. The system uses advanced speech recognition and natural language processing to provide intuitive voice control, while incorporating haptic feedback for tactile confirmation of actions.
+「NikoNiko」は、アニメファンのエンジニアたちが集まって開発した、次世代のアニメレコメンドシステムです。既存のサービスでは満足できなかった「本当に自分に合った作品」を見つけるために、視聴履歴だけでなく、作画の傾向や声優、制作スタジオなどのメタデータを多角的に分析します。
 
 import BlockQuote from '@components/BlockQuote.astro'
 import BreakoutImage from '@components/BreakoutImage.astro'
@@ -15,50 +15,49 @@ import { Image } from 'astro:assets'
 
 <BreakoutImage src="/projects/project-image-1.png" decorative={true} />
 
-## Technical Challenges
+## 技術的な挑戦
 
-One of the biggest challenges was creating a reliable voice recognition system that could work effectively in noisy environments and understand diverse speech patterns, including users with speech impediments. We solved this by implementing a custom machine learning model trained on a diverse dataset of voices and ambient conditions.
+最大の挑戦は、膨大なアニメ作品のメタデータをどのように構造化し、ユーザーの細かな嗜好（例：特定の演出家の作品が好き、日常系の中でもシュールなものが好きなど）をいかに捉えるかという点でした。私たちは自然言語処理（NLP）を用いてレビューを解析し、独自の「感情ベクトル」を生成することで、より精度の高いマッチングを実現しました。
 
-## Project Gallery
+## プロジェクトギャラリー
 
 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
   <Image
     src="/projects/project-image-1.png"
-    alt="Smart home assistant interface showing voice command visualization"
+    alt="NikoNikoのダッシュボード画面。おすすめのアニメが並んでいる。"
     width={1200}
     height={600}
     class="h-[250px] w-full rounded-lg object-cover"
   />
   <Image
     src="/projects/project-image-2.png"
-    alt="User interacting with the smart home system via voice commands"
+    alt="ユーザーが自分の好みを入力するインターフェース。"
     width={1200}
     height={600}
     class="h-[250px] w-full rounded-lg object-cover"
   />
   <Image
     src="/projects/project-image-3.png"
-    alt="Haptic feedback device component of the smart home system"
+    alt="レコメンドアルゴリズムの可視化図。"
     width={1200}
     height={600}
     class="h-[250px] w-full rounded-lg object-cover"
   />
   <Image
     src="/projects/project-image-4.png"
-    alt="Dashboard showing analytics of voice command usage patterns"
+    alt="モバイルアプリ版のスクリーンショット。"
     width={1200}
     height={600}
     class="h-[250px] w-full rounded-lg object-cover"
   />
 </div>
 
-## Testimonial
+## 開発メンバーの声
 
-<BlockQuote author="Maria Rodriguez, Beta Tester">
-  This system has given me back my independence at home. The voice controls are so natural, and the haptic feedback
-  helps me confirm every action without needing to see anything.
+<BlockQuote author="田中 太郎 (リードエンジニア)">
+  アニメへの愛を形にするために、最新の技術を惜しみなく投入しました。このプロジェクトを通じて、アニメデータの面白さと技術の可能性を再発見することができました。
 </BlockQuote>
 
 <BreakoutImage src="/projects/project-image-2.png" decorative={true} />
 
-The project continues to evolve with regular updates based on user feedback, with a focus on expanding support for multiple languages and additional accessibility features.
+今後もコミュニティの意見を取り入れながら、さらなる機能追加（声優ベースのレコメンド強化など）を予定しています。

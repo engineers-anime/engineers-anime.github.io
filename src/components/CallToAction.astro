@@ -5,40 +5,57 @@ import { Icon } from 'astro-icon/components'
 /**
  * CallToAction Component
  *
- * @description A prominent call-to-action section with a title and link
+ * @description A prominent call-to-action section with a title and links
  */
 interface Props {
   /**
    * The title text to display
-   * @default "Get this theme on GitHub"
    */
   title?: string
   /**
-   * The URL the button should link to
-   * @default "https://github.com/incluud/accessible-astro-starter"
+   * The URL the primary button should link to
    */
   link?: string
   /**
-   * The text to display on the button
-   * @default "Get Started"
+   * The text to display on the primary button
    */
   linkText?: string
+  /**
+   * The URL the secondary button should link to
+   */
+  secondaryLink?: string
+  /**
+   * The text to display on the secondary button
+   */
+  secondaryLinkText?: string
 }
 
 const {
-  title = 'Get this theme on GitHub',
-  link = 'https://github.com/incluud/accessible-astro-starter',
-  linkText = 'Use this theme',
+  title = 'コミュニティに参加しませんか？',
+  link = 'https://twitter.com/intent/follow?screen_name=engineers_anime',
+  linkText = '公式Xをフォロー',
+  secondaryLink = 'https://discord.gg/dgPWe6rNWS',
+  secondaryLinkText = 'Discordに参加',
 } = Astro.props
 ---
 
 <div class="container">
   <div class="call-to-action mt-24 mb-32 flex flex-col items-center gap-12 rounded-xl px-12 py-20 md:px-24">
     <Heading level="h2" class="text-center text-3xl md:text-6xl">{title}</Heading>
-    <Link href={link} isButton size="lg" animateOnHover animationType="nudge">
-      {linkText}
-      <Icon aria-hidden="true" name="lucide:rocket" size="1.5rem" />
-    </Link>
+    <div class="flex flex-wrap justify-center gap-6">
+      <div class="cta-button-white">
+        <Link href={link} isButton size="lg" animateOnHover animationType="nudge">
+          <Icon aria-hidden="true" name="simple-icons:x" size="1.5rem" />
+          {linkText}
+        </Link>
+      </div>
+      <div class="cta-button-white cta-button-discord">
+        <Link href={secondaryLink} isButton type="secondary" size="lg" animateOnHover animationType="nudge">
+          <Icon aria-hidden="true" name="simple-icons:discord" size="1.5rem" />
+          {secondaryLinkText}
+        </Link>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -49,9 +66,31 @@ const {
     position: relative;
     background-image: linear-gradient(
       315deg,
-      light-dark(var(--color-primary-100), var(--color-secondary-100)) 25%,
-      light-dark(var(--color-secondary-100), var(--color-primary-200))
+      #ff8c00 25%,
+      #ffd700
     );
     color: var(--color-neutral-900);
+  }
+
+  .cta-button-white {
+    display: contents;
+
+    :global(.button) {
+      background-color: white !important;
+      border-color: white !important;
+      color: black !important;
+
+      &:hover,
+      &:focus-visible {
+        background-color: var(--color-neutral-200) !important;
+        border-color: var(--color-neutral-200) !important;
+      }
+    }
+  }
+
+  .cta-button-discord {
+    :global(.button) {
+      color: #5865f2 !important;
+    }
   }
 </style>

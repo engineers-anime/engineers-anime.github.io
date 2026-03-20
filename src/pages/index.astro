@@ -4,168 +4,152 @@ import Hero from '@components/Hero.astro'
 import Feature from '@components/Feature.astro'
 import Counter from '@components/Counter.astro'
 import ContentMedia from '@components/ContentMedia.astro'
-import FeaturedProjects from '@components/FeaturedProjects.astro'
 import FeaturedPosts from '@components/FeaturedPosts.astro'
-import { Accordion, AccordionItem, Avatar, AvatarGroup, Heading, Link } from 'accessible-astro-components'
+import FeaturedBooks from '@components/FeaturedBooks.astro'
+import { Accordion, AccordionItem, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
+import { parse } from 'node-html-parser'
+
+// Calculate activity months since 2024/05/07
+const startDate = new Date('2024-05-07')
+const today = new Date()
+const monthsDiff = (today.getFullYear() - startDate.getFullYear()) * 12 + (today.getMonth() - startDate.getMonth())
+const activityMonths = `${monthsDiff}+`
+
+// Scrape Connpass data at build time
+let memberCount = '600+' // Default value if scraping fails
+let eventCount = '30+' // Default value if scraping fails
+try {
+  const response = await fetch('https://engineers-anime.connpass.com/', {
+    headers: { 'User-Agent': 'Mozilla/5.0' }
+  })
+  const html = await response.text()
+  const root = parse(html)
+  
+  // Extract member count more robustly
+  const sideArea = root.querySelector('#side_area')
+  if (sideArea) {
+    const memberAmount = sideArea.querySelector('.amount')
+    if (memberAmount) {
+      memberCount = memberAmount.text.trim()
+    }
+  }
+  
+  // Extract event count
+  const eventLink = root.querySelectorAll('a').find(a => a.text.includes('全てのイベントを見る'))
+  if (eventLink) {
+    const match = eventLink.text.match(/（(\d+)件）/)
+    if (match) {
+      eventCount = match[1]
+    }
+  }
+} catch (error) {
+  console.error('Error scraping Connpass:', error)
+}
 ---
 
-<DefaultLayout title="Accessible Astro Starter - Build Faster, More Inclusive Websites" useTitleTemplate={false}>
+<DefaultLayout title="エンジニアニメ - エンジニアとアニメを繋ぐポータルサイト" useTitleTemplate={false}>
   <Hero />
   <section class="my-64">
     <div class="container">
-      <Heading level="h2" class="mb-8">Features</Heading>
-      <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-        <Feature icon="lucide:accessibility" title="Accessible by default">
-          Keyboard navigation, focus indicators, ARIA labels, semantic HTML, and more. This theme is designed to be
-          inclusive.
+      <Heading level="h2" class="mb-8">活動内容</Heading>
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
+        <Feature icon="lucide:users" title="コミュニティー運営">
+          「アニメから得た学びをエンジニア同士で語り合う」をコンセプトに、エンジニアのモチベーション維持やキャリア形成に繋がる交流の場を運営しています。
         </Feature>
-        <Feature icon="lucide:puzzle" title="A11Y components">
-          35+ components and counting, all tried and tested for the most optimal accessible experience for your
-          visitors.
+        <Feature icon="lucide:calendar" title="勉強会の実施">
+          勉強会「アニメから得た学びを発表会」をはじめ、アニメの聖地や都内で平日夜にLT会など、多様な場所や規模で開催しています。
         </Feature>
-        <Feature icon="lucide:moon" title="Dark mode">
-          Fully integrated Dark mode gives your users the choice for their favorite viewing mode.
-        </Feature>
-        <Feature icon="lucide:paintbrush" title="Tailwind 4.0">
-          Use the power of Tailwind to greatly improve your productivity and enhance your developer workflow.
-        </Feature>
-        <Feature icon="lucide:sparkles" title="Prettier">
-          Less worry about formatting your code, let the Astro Prettier integration do the heavy lifting.
-        </Feature>
-        <Feature icon="lucide:code" title="ESLint">
-          Lint your code with strict a11y settings to ensure you stay on track with the WCAG standards.
-        </Feature>
-        <Feature icon="lucide:bookmark" title="Blog & portfolio">
-          This theme comes with a fully integrated blog and portfolio, dynamic pages and SEO optimization.
-        </Feature>
-        <Feature icon="lucide:file-text" title="Markdown & MDX">
-          Easily use .md and .mdx pages to build your websites or use it with Netlify CMS.
-        </Feature>
-        <Feature icon="lucide:blocks" title="Design system">
-          The theme offers some very handy utilities to help you build your website faster.
+        <Feature icon="lucide:book-open" title="同人誌の作成">
+          技術書典などのイベントと連動し、アニメと技術を掛け合わせた知見やコミュニティの活動をまとめた技術同人誌の制作・頒布を行っています。
         </Feature>
       </div>
     </div>
   </section>
   <ContentMedia imgSrc="/accessible-components.webp">
-    <Heading level="h2">Accessible components</Heading>
+    <Heading level="h2">勉強会を開催</Heading>
     <p class="text-2xl">
-      This theme provides plenty of tried and tested Accessible Astro Components. Some are native to this theme and a
-      lot of others are integrated using a <Link
-        isExternal
-        href="https://github.com/incluud/accessible-astro-components">separate package</Link
-      >. They'll get you up and running in building an accessible solution for your visitors.
+      「アニメから得た学びを発表会」をはじめとした、勉強会を展開しています。エンジニア独自の視点でアニメを深掘りし、新しい気づきを共有する場を提供しています。
     </p>
   </ContentMedia>
   <ContentMedia imgSrc="/wcag-compliant.webp" reverseImg={true}>
-    <Heading level="h2">WCAG 2.2 AA compliant</Heading>
+    <Heading level="h2">同人誌の制作</Heading>
     <p class="text-2xl">
-      Using semantic HTML, landmarks, skip links, screen reader friendly content, aria-labels, keyboard accessible
-      navigation and components, clear outlines and tab indicators and the right color contrast, you're more certain of
-      reaching WCAG AA compliance.
+      技術書典などのイベントにて、アニメとエンジニアリングを掛け合わせた技術同人誌を制作・頒布しています。コミュニティの集合知を一冊の本として形にしています。
     </p>
   </ContentMedia>
-  <FeaturedProjects />
   <FeaturedPosts />
+  <FeaturedBooks />
   <section class="my-64">
     <div class="container grid grid-cols-1 gap-12 md:grid-cols-2">
       <div class="flex flex-col items-start gap-4">
-        <Heading level="h2">FAQ</Heading>
+        <Heading level="h2">よくある質問</Heading>
         <p class="text-2xl">
-          This section demonstrates how to effectively use the Accordion component to organize and display frequently
-          asked questions in an accessible and user-friendly way.
+          コミュニティへの参加や活動に関するよくある質問をまとめています。
         </p>
-        <Link href="/faq" isButton type="primary" animateOnHover animationType="boop">
-          <Icon aria-hidden="true" name="lucide:headset" size=" 1.5rem" />
-          Contact support team
-        </Link>
+        <div class="flex flex-wrap gap-4">
+          <Link href="https://twitter.com/intent/follow?screen_name=engineers_anime" isButton isExternal type="primary" animateOnHover animationType="boop">
+            <Icon aria-hidden="true" name="simple-icons:x" size=" 1.5rem" />
+            公式Xをフォロー
+          </Link>
+          <div class="discord-button-wrapper">
+            <Link href="https://discord.gg/dgPWe6rNWS" isButton isExternal type="secondary" animateOnHover animationType="boop">
+              <Icon aria-hidden="true" name="simple-icons:discord" size=" 1.5rem" />
+              Discordに参加
+            </Link>
+          </div>
+        </div>
       </div>
       <div class="space-content">
         <Accordion>
-          <AccordionItem name="exclusive" title="What is WCAG and why is it important?" open>
+          <AccordionItem name="exclusive" title="初心者でも参加できますか？" open>
             <p>
-              WCAG (Web Content Accessibility Guidelines) is a set of internationally recognized standards for web
-              accessibility. Following WCAG ensures your website is usable by people with various disabilities,
-              including visual, auditory, physical, and cognitive impairments. It's important not just for
-              accessibility, but also for legal compliance, SEO, and reaching a wider audience.
+              もちろんです！アニメが好き、またはエンジニアリングに興味がある方なら、経験を問わず大歓迎です。
             </p>
           </AccordionItem>
-          <AccordionItem name="exclusive" title="What's the difference between ARIA labels and alt text?">
+          <AccordionItem name="exclusive" title="主な活動場所はどこですか？">
             <p>
-              Alt text is specifically for describing images to screen reader users, while ARIA labels (aria-label,
-              aria-labelledby) can describe any element on a page. Alt text is HTML's native way to provide alternative
-              text for images, while ARIA labels are part of the ARIA specification that helps make dynamic content and
-              advanced UI controls more accessible.
+              定期的に都内でのオフライン交流会を開催しています。山手線沿線のアクセスしやすい場所が多いです。
             </p>
           </AccordionItem>
-          <AccordionItem name="exclusive" title="Why is keyboard navigation important?">
+          <AccordionItem name="exclusive" title="どのような技術スタックの人が多いですか？">
             <p>
-              Keyboard navigation is essential for users who can't use a mouse, including people with motor
-              disabilities, visual impairments, or those who simply prefer keyboard controls. A website should be fully
-              operable using only a keyboard, with visible focus indicators and logical tab order. This includes being
-              able to access all interactive elements and navigate through content efficiently.
+              Webエンジニア、モバイルエンジニア、AIエンジニア、デザイナーなど、多種多様な方々が参加しています。
             </p>
           </AccordionItem>
-          <AccordionItem name="exclusive" title="What is a sufficient color contrast ratio?">
+          <AccordionItem name="exclusive" title="参加費用はかかりますか？">
             <p>
-              According to WCAG 2.2 AA standards, text should have a minimum contrast ratio of 4.5:1 against its
-              background for regular text, and 3:1 for large text (18pt or 14pt bold). For non-text elements like icons
-              or buttons, a minimum ratio of 3:1 is required. This ensures content is readable for users with visual
-              impairments or color blindness.
-            </p>
-          </AccordionItem>
-          <AccordionItem name="exclusive" title="How do I make custom components accessible?">
-            <p>
-              To make custom components accessible, focus on these key aspects: use semantic HTML where possible,
-              implement proper keyboard support, add appropriate ARIA attributes, manage focus when needed, and ensure
-              adequate color contrast. Always test with screen readers and keyboard navigation. Consider using
-              established design patterns from the <Link href="https://www.w3.org/WAI/ARIA/apg/patterns/"
-                >ARIA Authoring Practices Guide</Link
-              >.
+              コミュニティへの基本的な参加は無料です。特定のイベントや懇親会などの際には実費をいただく場合があります。
             </p>
           </AccordionItem>
         </Accordion>
       </div>
     </div>
   </section>
-  <section class="my-64">
-    <div class="space-content container">
-      <Heading level="h2">Our community</Heading>
-      <p class="text-2xl">
-        We're a community of developers who are passionate about making the web more accessible. We're always looking
-        for new ways to improve the accessibility of the web.
-      </p>
-      <AvatarGroup display="grid" gridItemsSize="300px" gridGap="2rem">
-        <Avatar initials="RJ" title="Robert Johnson" subtitle="Manager" />
-        <Avatar initials="MT" title="Maria Torres" subtitle="Developer" />
-        <Avatar initials="AK" title="Alex Kim" subtitle="Designer" />
-        <Avatar initials="SL" title="Sarah Lee" subtitle="Content Strategist" />
-        <Avatar initials="JP" title="James Peterson" subtitle="QA Engineer" />
-        <Avatar initials="LW" title="Lisa Wong" subtitle="Product Owner" />
-        <Avatar initials="DM" title="David Martinez" subtitle="UX Researcher" />
-        <Avatar initials="EB" title="Emma Brown" subtitle="Accessibility Specialist" />
-        <Avatar initials="TC" title="Thomas Chen" subtitle="Frontend Developer" />
-      </AvatarGroup>
-    </div>
-  </section>
   <section class="mt-64 mb-32">
     <div class="container">
-      <Heading level="h2" class="mb-16">Impact in numbers</Heading>
-      <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
-        <Counter count="1.100+" title="Stars" sub="On GitHub" />
-        <Counter count="35+" title="Accessible" sub="Components" />
-        <Counter count="500+" title="Commits" sub="Merged" />
-        <Counter count="48+" title="Months" sub="Since launch" />
+      <Heading level="h2" class="mb-16">数字で見るエンジニアニメ</Heading>
+      <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3">
+        <Counter count={memberCount} title="Members" sub="コミュニティ人数" />
+        <Counter count={eventCount} title="Events" sub="累計イベント開催数" />
+        <Counter count={activityMonths} title="Months" sub="活動期間" />
       </div>
     </div>
   </section>
 </DefaultLayout>
 
 <style>
-  .avatar {
-    border: 1px solid var(--border-color-subtle);
-    border-radius: var(--radius-md);
-    padding: var(--space-s);
+  .discord-button-wrapper {
+    :global(.button.secondary) {
+      background-color: #5865f2 !important;
+      border-color: #5865f2 !important;
+      color: white !important;
+
+      &:hover,
+      &:focus-visible {
+        background-color: color-mix(in srgb, #5865f2, black 10%) !important;
+        border-color: color-mix(in srgb, #5865f2, black 10%) !important;
+      }
+    }
   }
 </style>

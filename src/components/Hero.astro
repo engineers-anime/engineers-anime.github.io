@@ -22,29 +22,29 @@ const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
   <div class="container">
     <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
       <div class="flex flex-col items-center gap-8 md:items-start">
-        <h1 class="text-center text-6xl md:text-left lg:text-8xl">
-          <slot><span class="text-gradient">Accessible</span> Starter for Astro</slot>
+        <h1 class="whitespace-nowrap text-center text-4xl md:text-left md:text-6xl lg:text-7xl">
+          <slot><span class="text-gradient">エンジニアニメ</span></slot>
         </h1>
         <div class="flex flex-col gap-3 min-[500px]:flex-row">
           <Link
-            href="https://github.com/incluud/accessible-astro-starter"
+            href="https://twitter.com/intent/follow?screen_name=engineers_anime"
             isButton
             type="primary"
             animateOnHover
             animationType="boop"
           >
-            <Icon aria-hidden="true" name="lucide:star" size="1.5rem" />
-            Star on GitHub
+            <Icon aria-hidden="true" name="simple-icons:x" size="1.5rem" />
+            公式Xをフォロー
           </Link>
           <Link
-            href="https://accessible-astro.incluud.dev/"
+            href="#upcoming-events"
             isButton
             type="secondary"
             animateOnHover
             animationType="boop"
           >
-            <Icon aria-hidden="true" name="lucide:bookmark" size="1.5rem" />
-            Read the docs
+            <Icon aria-hidden="true" name="lucide:calendar" size="1.5rem" />
+            勉強会を確認する
           </Link>
         </div>
       </div>
@@ -59,11 +59,7 @@ const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
   }
 
   .text-gradient {
-    background: linear-gradient(
-      315deg,
-      light-dark(var(--color-primary-300), var(--color-secondary-100)) 25%,
-      light-dark(var(--color-secondary-300), var(--color-primary-200))
-    );
+    background: linear-gradient(315deg, #ff8c00 25%, #ffd700);
     background-clip: border-box;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

@@ -43,6 +43,7 @@
     "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.39.2",
     "@iconify-json/lucide": "^1.2.87",
+    "@iconify-json/simple-icons": "^1.2.74",
     "@types/sanitize-html": "^2.16.0",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
@@ -67,7 +68,8 @@
     "@astrojs/sitemap": "^3.7.0",
     "@tailwindcss/vite": "^4.1.18",
     "accessible-astro-components": "^5.1.2",
-    "accessible-astro-launcher": "^2.0.0",
-    "astro-seo": "^1.1.0"
+    "astro-seo": "^1.1.0",
+    "node-html-parser": "^7.1.0",
+    "rss-parser": "^3.13.0"
   }
 }
