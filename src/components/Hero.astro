@@ -2,6 +2,7 @@
 import { Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
 
 /**
  * Hero Component
@@ -26,7 +27,9 @@ const images = await Promise.all(Object.values(imageFiles).map((img) => img()))
   <div class="container">
     <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
       <div class="flex flex-col items-center gap-8 md:items-start">
-        <h1 class="text-center text-4xl whitespace-nowrap md:text-left md:text-6xl lg:text-7xl py-4 leading-normal overflow-visible">
+        <h1
+          class="overflow-visible py-4 text-center text-4xl leading-normal whitespace-nowrap md:text-left md:text-6xl lg:text-7xl"
+        >
           <slot><span class="text-gradient">エンジニアニメ</span></slot>
         </h1>
         <div class="flex flex-col gap-3 min-[500px]:flex-row">
@@ -46,7 +49,7 @@ const images = await Promise.all(Object.values(imageFiles).map((img) => img()))
           </Link>
         </div>
       </div>
-      <div class="image-container relative hidden lg:block overflow-hidden rounded-xl h-[600px] w-full max-w-[800px]">
+      <div class="image-container relative hidden h-[600px] w-full max-w-[800px] overflow-hidden rounded-xl lg:block">
         {
           images.length > 0 ? (
             images.map((img, index) => (
@@ -61,7 +64,15 @@ const images = await Promise.all(Object.values(imageFiles).map((img) => img()))
               />
             ))
           ) : (
-            <Image class="h-full w-full object-cover" src={src} alt="" decoding="async" width={800} height={600} loading="eager" />
+            <Image
+              class="h-full w-full object-cover"
+              src={src}
+              alt=""
+              decoding="async"
+              width={800}
+              height={600}
+              loading="eager"
+            />
           )
         }
       </div>

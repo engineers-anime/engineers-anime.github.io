@@ -27,12 +27,16 @@ const { loading = 'eager', isLink = true }: Props = Astro.props
 {
   isLink ? (
     <Link href="/" class="flex items-center gap-2">
-      {themeConfig.logo && <Image src={themeConfig.logo} alt="" aria-hidden="true" height="32" inferSize loading={loading} />}
+      {themeConfig.logo && (
+        <Image src={themeConfig.logo} alt="" aria-hidden="true" height="32" inferSize loading={loading} />
+      )}
       <span class="text-gradient text-sm font-bold sm:text-lg">{themeConfig.name}</span>
     </Link>
   ) : (
     <div class="flex items-center gap-2">
-      {themeConfig.logo && <Image src={themeConfig.logo} alt="" aria-hidden="true" height="32" inferSize loading={loading} />}
+      {themeConfig.logo && (
+        <Image src={themeConfig.logo} alt="" aria-hidden="true" height="32" inferSize loading={loading} />
+      )}
       <span class="text-gradient text-sm font-bold sm:text-lg">{themeConfig.name}</span>
     </div>
   )
