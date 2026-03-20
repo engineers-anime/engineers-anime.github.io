@@ -64,11 +64,7 @@ const {
 
   .call-to-action {
     position: relative;
-    background-image: linear-gradient(
-      315deg,
-      #ff8c00 25%,
-      #ffd700
-    );
+    background-image: linear-gradient(315deg, #ff8c00 25%, #ffd700);
     color: var(--color-neutral-900);
   }
 
@@ -76,14 +72,14 @@ const {
     display: contents;
 
     :global(.button) {
-      background-color: white !important;
       border-color: white !important;
+      background-color: white !important;
       color: black !important;
 
       &:hover,
       &:focus-visible {
-        background-color: var(--color-neutral-200) !important;
         border-color: var(--color-neutral-200) !important;
+        background-color: var(--color-neutral-200) !important;
       }
     }
   }

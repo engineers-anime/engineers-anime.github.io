@@ -21,11 +21,11 @@ let memberCount = '600+' // Default value if scraping fails
 let eventCount = '30+' // Default value if scraping fails
 try {
   const response = await fetch('https://engineers-anime.connpass.com/', {
-    headers: { 'User-Agent': 'Mozilla/5.0' }
+    headers: { 'User-Agent': 'Mozilla/5.0' },
   })
   const html = await response.text()
   const root = parse(html)
-  
+
   // Extract member count more robustly
   const sideArea = root.querySelector('#side_area')
   if (sideArea) {
@@ -34,9 +34,9 @@ try {
       memberCount = memberAmount.text.trim()
     }
   }
-  
+
   // Extract event count
-  const eventLink = root.querySelectorAll('a').find(a => a.text.includes('全てのイベントを見る'))
+  const eventLink = root.querySelectorAll('a').find((a) => a.text.includes('全てのイベントを見る'))
   if (eventLink) {
     const match = eventLink.text.match(/（(\d+)件）/)
     if (match) {
@@ -84,16 +84,28 @@ try {
     <div class="container grid grid-cols-1 gap-12 md:grid-cols-2">
       <div class="flex flex-col items-start gap-4">
         <Heading level="h2">よくある質問</Heading>
-        <p class="text-2xl">
-          コミュニティへの参加や活動に関するよくある質問をまとめています。
-        </p>
+        <p class="text-2xl">コミュニティへの参加や活動に関するよくある質問をまとめています。</p>
         <div class="flex flex-wrap gap-4">
-          <Link href="https://twitter.com/intent/follow?screen_name=engineers_anime" isButton isExternal type="primary" animateOnHover animationType="boop">
+          <Link
+            href="https://twitter.com/intent/follow?screen_name=engineers_anime"
+            isButton
+            isExternal
+            type="primary"
+            animateOnHover
+            animationType="boop"
+          >
             <Icon aria-hidden="true" name="simple-icons:x" size=" 1.5rem" />
             公式Xをフォロー
           </Link>
           <div class="discord-button-wrapper">
-            <Link href="https://discord.gg/dgPWe6rNWS" isButton isExternal type="secondary" animateOnHover animationType="boop">
+            <Link
+              href="https://discord.gg/dgPWe6rNWS"
+              isButton
+              isExternal
+              type="secondary"
+              animateOnHover
+              animationType="boop"
+            >
               <Icon aria-hidden="true" name="simple-icons:discord" size=" 1.5rem" />
               Discordに参加
             </Link>
@@ -103,19 +115,13 @@ try {
       <div class="space-content">
         <Accordion>
           <AccordionItem name="exclusive" title="初心者でも参加できますか？" open>
-            <p>
-              もちろんです！アニメが好き、またはエンジニアリングに興味がある方なら、経験を問わず大歓迎です。
-            </p>
+            <p>もちろんです！アニメが好き、またはエンジニアリングに興味がある方なら、経験を問わず大歓迎です。</p>
           </AccordionItem>
           <AccordionItem name="exclusive" title="主な活動場所はどこですか？">
-            <p>
-              定期的に都内でのオフライン交流会を開催しています。山手線沿線のアクセスしやすい場所が多いです。
-            </p>
+            <p>定期的に都内でのオフライン交流会を開催しています。山手線沿線のアクセスしやすい場所が多いです。</p>
           </AccordionItem>
           <AccordionItem name="exclusive" title="どのような技術スタックの人が多いですか？">
-            <p>
-              Webエンジニア、モバイルエンジニア、AIエンジニア、デザイナーなど、多種多様な方々が参加しています。
-            </p>
+            <p>Webエンジニア、モバイルエンジニア、AIエンジニア、デザイナーなど、多種多様な方々が参加しています。</p>
           </AccordionItem>
           <AccordionItem name="exclusive" title="参加費用はかかりますか？">
             <p>
@@ -141,14 +147,14 @@ try {
 <style>
   .discord-button-wrapper {
     :global(.button.secondary) {
-      background-color: #5865f2 !important;
       border-color: #5865f2 !important;
+      background-color: #5865f2 !important;
       color: white !important;
 
       &:hover,
       &:focus-visible {
-        background-color: color-mix(in srgb, #5865f2, black 10%) !important;
         border-color: color-mix(in srgb, #5865f2, black 10%) !important;
+        background-color: color-mix(in srgb, #5865f2, black 10%) !important;
       }
     }
   }

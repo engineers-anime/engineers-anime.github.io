@@ -8,8 +8,7 @@ export default defineThemeConfig({
   logo: logoImage,
   seo: {
     title: 'エンジニアニメ - エンジニアとアニメを繋ぐコミュニティ',
-    description:
-      'エンジニアニメは、アニメ好きのエンジニアが集まり、技術と情熱を共有するポータルサイトです。',
+    description: 'エンジニアニメは、アニメ好きのエンジニアが集まり、技術と情熱を共有するポータルサイトです。',
     author: 'Engineers Anime Community',
     image: previewImage, // Can also be a string e.g. '/social-preview-image.png',
   },

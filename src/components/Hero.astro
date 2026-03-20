@@ -22,7 +22,7 @@ const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
   <div class="container">
     <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
       <div class="flex flex-col items-center gap-8 md:items-start">
-        <h1 class="whitespace-nowrap text-center text-4xl md:text-left md:text-6xl lg:text-7xl">
+        <h1 class="text-center text-4xl whitespace-nowrap md:text-left md:text-6xl lg:text-7xl">
           <slot><span class="text-gradient">エンジニアニメ</span></slot>
         </h1>
         <div class="flex flex-col gap-3 min-[500px]:flex-row">
@@ -36,13 +36,7 @@ const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
             <Icon aria-hidden="true" name="simple-icons:x" size="1.5rem" />
             公式Xをフォロー
           </Link>
-          <Link
-            href="#upcoming-events"
-            isButton
-            type="secondary"
-            animateOnHover
-            animationType="boop"
-          >
+          <Link href="#upcoming-events" isButton type="secondary" animateOnHover animationType="boop">
             <Icon aria-hidden="true" name="lucide:calendar" size="1.5rem" />
             勉強会を確認する
           </Link>

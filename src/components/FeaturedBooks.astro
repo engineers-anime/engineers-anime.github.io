@@ -25,12 +25,12 @@ const { class: className, title = '発行した同人誌' } = Astro.props
 const books = [
   {
     url: 'https://engineers-anime.booth.pm/items/7666750',
-    id: '7666750'
+    id: '7666750',
   },
   {
     url: 'https://engineers-anime.booth.pm/items/7666770',
-    id: '7666770'
-  }
+    id: '7666770',
+  },
 ]
 
 const bookDetails = await Promise.all(
@@ -39,29 +39,29 @@ const bookDetails = await Promise.all(
       title: 'エンジニアニメ技術同人誌',
       description: 'アニメと技術を掛け合わせた知見をまとめた一冊です。',
       image: 'https://placehold.co/640x360?text=BOOTH+Book',
-      url: book.url
+      url: book.url,
     }
 
     try {
       const res = await fetch(book.url, {
-        headers: { 'User-Agent': 'Mozilla/5.0' }
+        headers: { 'User-Agent': 'Mozilla/5.0' },
       })
       const html = await res.text()
       const root = parse(html)
-      
+
       const ogTitle = root.querySelector('meta[property="og:title"]')?.getAttribute('content')
       const ogDesc = root.querySelector('meta[property="og:description"]')?.getAttribute('content')
       const ogImage = root.querySelector('meta[property="og:image"]')?.getAttribute('content')
-      
+
       if (ogTitle) details.title = ogTitle.replace(' - BOOTH', '')
       if (ogDesc) details.description = ogDesc
       if (ogImage) details.image = ogImage
     } catch (e) {
       console.error('Error fetching BOOTH OG info:', e)
     }
-    
+
     return details
-  })
+  }),
 )
 ---
 
@@ -71,12 +71,7 @@ const bookDetails = await Promise.all(
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
         bookDetails.map((book) => (
-          <Card
-            img={book.image}
-            url={book.url}
-            headingLevel="h2"
-            title={book.title}
-          >
+          <Card img={book.image} url={book.url} headingLevel="h2" title={book.title}>
             <p class="line-clamp-4">{book.description}</p>
           </Card>
         ))
