@@ -4,14 +4,14 @@ import Hero from '@components/Hero.astro'
 import Feature from '@components/Feature.astro'
 import Counter from '@components/Counter.astro'
 import ContentMedia from '@components/ContentMedia.astro'
+import Slideshow from '@components/Slideshow.astro'
 import FeaturedPosts from '@components/FeaturedPosts.astro'
 import FeaturedBooks from '@components/FeaturedBooks.astro'
 import { Accordion, AccordionItem, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { parse } from 'node-html-parser'
 import { books } from '@utils/books'
-import firstImage from '../assets/img/picture/event.JPG'
-import secondImage from '../assets/img/picture/books.png'
+import eventLogo from '../assets/img/logo-minified.svg'
 
 // Calculate activity months since 2024/05/07
 const startDate = new Date('2024-05-07')
@@ -59,28 +59,33 @@ const bookCount = books.length.toString()
     <div class="container">
       <Heading level="h2" class="mb-8">活動内容</Heading>
       <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
-        <Feature icon="lucide:users" title="コミュニティー運営">
+        <Feature icon="lucide:users" title="コミュニティー活動">
           「アニメから得た学びをエンジニア同士で語り合う」をコンセプトに、エンジニアのモチベーション維持やキャリア形成に繋がる交流の場を運営しています。
         </Feature>
-        <Feature icon="lucide:calendar" title="勉強会の実施">
+        <Feature imgSrc={eventLogo.src} title="勉強会">
           勉強会「アニメから得た学びを発表会」をはじめ、アニメの聖地や都内で平日夜に勉強会など、多様な場所や規模で開催しています。
         </Feature>
-        <Feature icon="lucide:book-open" title="同人誌の作成">
-          技術書典などのイベントと連動し、アニメと技術を掛け合わせた知見やコミュニティの活動をまとめた技術同人誌の制作・頒布を行っています。
+        <Feature icon="lucide:book-open" title="技術同人誌の制作">
+          同人誌即売会などのイベントに向けて、アニメと技術が交差する独自の知見を詰め込んだ技術同人誌を、有志メンバーでわいわい制作・頒布しています。
         </Feature>
       </div>
     </div>
   </section>
-  <ContentMedia imgSrc={firstImage.src}>
-    <Heading level="h2">勉強会を開催</Heading>
+  <ContentMedia>
+    <Slideshow slot="media" folder="slides/study" maxWidth="600px" />
+    <div class="mb-4 flex items-center gap-4">
+      <img src={eventLogo.src} alt="" aria-hidden="true" class="h-12 w-auto" />
+      <Heading level="h2">勉強会・交流会</Heading>
+    </div>
     <p class="text-2xl">
-      「アニメから得た学びを発表会」をはじめとした、勉強会を展開しています。エンジニア独自の視点でアニメを深掘りし、新しい気づきを共有する場を提供しています。
+      「アニメから得た学びを発表会」では、エンジニア独自の視点でアニメを深掘り。好きな作品を技術的な切り口で見つめ直すことで、一人では得られない新しい気づきを共有し合っています。
     </p>
   </ContentMedia>
-  <ContentMedia imgSrc={secondImage.src} reverseImg={true}>
-    <Heading level="h2">同人誌の制作</Heading>
+  <ContentMedia reverseImg={true}>
+    <Slideshow slot="media" folder="slides/book" aspectRatio="722/1024" maxWidth="400px" hasBorder={true} />
+    <Heading level="h2">技術同人誌の制作</Heading>
     <p class="text-2xl">
-      技術書典などのイベントにて、アニメとエンジニアリングを掛け合わせた技術同人誌を制作・頒布しています。コミュニティの集合知を一冊の本として形にしています。
+      有志が集まり、アニメと技術を掛け合わせた技術同人誌を制作しています。コミュニティに集まった多様なパッションを一冊の本という形にして、同人誌即売会などで頒布しています。
     </p>
   </ContentMedia>
   <FeaturedPosts />

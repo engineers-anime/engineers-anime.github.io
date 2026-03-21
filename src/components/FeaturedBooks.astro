@@ -21,7 +21,7 @@ interface Props {
   title?: string
 }
 
-const { class: className, title = '発行した同人誌' } = Astro.props
+const { class: className, title = '制作した技術同人誌' } = Astro.props
 
 const bookDetails = await Promise.all(
   books.map(async (book) => {

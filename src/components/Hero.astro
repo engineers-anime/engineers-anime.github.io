@@ -18,20 +18,53 @@ interface Props {
 
 const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
 
-// Import images from src/assets/img/top_charas
-const imageFiles = import.meta.glob<{ default: ImageMetadata }>('/src/assets/img/top_charas/*.{png,jpg,jpeg,webp}')
-const images = await Promise.all(Object.values(imageFiles).map((img) => img()))
+// Import images from src/assets/img/top_slide
+const imageFiles = import.meta.glob<{ default: ImageMetadata }>('/src/assets/img/top_slide/*.{png,jpg,jpeg,webp}')
+// Sort keys to ensure they are in order (1.png, 2.png, ...)
+const sortedKeys = Object.keys(imageFiles).sort((a, b) => {
+  const numA = parseInt(a.match(/\d+/)?.[0] || '0')
+  const numB = parseInt(b.match(/\d+/)?.[0] || '0')
+  return numA - numB
+})
+const images = await Promise.all(sortedKeys.map((key) => imageFiles[key]()))
 ---
 
 <section class="hero mt-12 mb-24">
   <div class="container">
-    <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
+    <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-24">
       <div class="flex flex-col items-center gap-8 md:items-start">
         <h1
           class="overflow-visible py-4 text-center text-4xl leading-normal whitespace-nowrap md:text-left md:text-6xl lg:text-7xl"
         >
           <slot><span class="text-gradient">エンジニアニメ</span></slot>
         </h1>
+        <div class="image-container relative block w-full overflow-hidden rounded-xl lg:hidden">
+          {
+            images.length > 0 ? (
+              images.map((img, index) => (
+                <Image
+                  class={`hero-image absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                  src={img.default}
+                  alt=""
+                  decoding="async"
+                  width={600}
+                  height={600}
+                  loading="eager"
+                />
+              ))
+            ) : (
+              <Image
+                class="h-full w-full object-cover"
+                src={src}
+                alt=""
+                decoding="async"
+                width={600}
+                height={600}
+                loading="eager"
+              />
+            )
+          }
+        </div>
         <div class="flex flex-col gap-3 min-[500px]:flex-row">
           <Link
             href="https://twitter.com/intent/follow?screen_name=engineers_anime"
@@ -49,7 +82,7 @@ const images = await Promise.all(Object.values(imageFiles).map((img) => img()))
           </Link>
         </div>
       </div>
-      <div class="image-container relative hidden h-[600px] w-full max-w-[800px] overflow-hidden rounded-xl lg:block">
+      <div class="image-container relative hidden w-full overflow-hidden rounded-xl lg:block">
         {
           images.length > 0 ? (
             images.map((img, index) => (
@@ -58,7 +91,7 @@ const images = await Promise.all(Object.values(imageFiles).map((img) => img()))
                 src={img.default}
                 alt=""
                 decoding="async"
-                width={800}
+                width={600}
                 height={600}
                 loading="eager"
               />
@@ -69,7 +102,7 @@ const images = await Promise.all(Object.values(imageFiles).map((img) => img()))
               src={src}
               alt=""
               decoding="async"
-              width={800}
+              width={600}
               height={600}
               loading="eager"
             />
@@ -95,10 +128,9 @@ const images = await Promise.all(Object.values(imageFiles).map((img) => img()))
   }
 
   .image-container {
-    aspect-ratio: 4 / 3;
-    @media (min-width: 1024px) {
-      height: 600px;
-    }
+    aspect-ratio: 1 / 1;
+    max-width: 600px;
+    margin-inline: auto;
   }
 </style>
 

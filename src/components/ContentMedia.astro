@@ -8,9 +8,9 @@ import { Media } from 'accessible-astro-components'
  */
 interface Props {
   /**
-   * The source URL for the image
+   * The source URL for the image (optional if media slot is used)
    */
-  imgSrc: string
+  imgSrc?: string
   /**
    * Whether to display the image on the right side instead of the left
    * @default false
@@ -24,11 +24,14 @@ const { imgSrc, reverseImg = false }: Props = Astro.props
 <section class="my-64">
   <div class="container">
     <div class="grid grid-cols-1 gap-24 md:grid-cols-2">
-      {!reverseImg ? <Media class="rounded-lg" src={imgSrc} /> : ''}
-      <div class="space-content flex flex-col justify-center">
+      <div class={`flex flex-col justify-center order-2 ${reverseImg ? 'md:order-2' : 'md:order-1'}`}>
+        <slot name="media">
+          {imgSrc && <Media class="rounded-lg" src={imgSrc} />}
+        </slot>
+      </div>
+      <div class={`space-content flex flex-col justify-center order-1 ${reverseImg ? 'md:order-1' : 'md:order-2'}`}>
         <slot />
       </div>
-      {reverseImg ? <Media class="rounded-lg" src={imgSrc} /> : ''}
     </div>
   </div>
 </section>
