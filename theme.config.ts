@@ -34,7 +34,7 @@ export default defineThemeConfig({
       },
       {
         type: 'link',
-        label: '公式Xをフォロー',
+        label: 'Xをフォロー',
         href: 'https://twitter.com/intent/follow?screen_name=engineers_anime',
         icon: 'simple-icons:x',
         external: true,

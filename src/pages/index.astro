@@ -19,7 +19,7 @@ const today = new Date()
 const monthsDiff = (today.getFullYear() - startDate.getFullYear()) * 12 + (today.getMonth() - startDate.getMonth())
 const activityMonths = `${monthsDiff}+`
 
-// Scrape Connpass data at build time
+// Scrape connpass data at build time
 let memberCount = '600+' // Default value if scraping fails
 let eventCount = '30+' // Default value if scraping fails
 try {
@@ -47,7 +47,7 @@ try {
     }
   }
 } catch (error) {
-  console.error('Error scraping Connpass:', error)
+  console.error('Error scraping connpass:', error)
 }
 
 const bookCount = books.length.toString()
@@ -62,7 +62,7 @@ const bookCount = books.length.toString()
         <Feature icon="lucide:users" title="コミュニティー活動">
           「アニメから得た学びをエンジニア同士で語り合う」をコンセプトに、エンジニアのモチベーション維持やキャリア形成に繋がる交流の場を運営しています。
         </Feature>
-        <Feature imgSrc={eventLogo.src} title="勉強会">
+        <Feature imgSrc={eventLogo.src} title="勉強会・交流会">
           勉強会「アニメから得た学びを発表会」をはじめ、アニメの聖地や都内で平日夜に勉強会など、多様な場所や規模で開催しています。
         </Feature>
         <Feature icon="lucide:book-open" title="技術同人誌の制作">
@@ -105,7 +105,7 @@ const bookCount = books.length.toString()
             animationType="boop"
           >
             <Icon aria-hidden="true" name="simple-icons:x" size=" 1.5rem" />
-            公式Xをフォロー
+            Xをフォロー
           </Link>
           <div class="discord-button-wrapper">
             <Link

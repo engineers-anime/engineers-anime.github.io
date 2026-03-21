@@ -74,7 +74,7 @@ const images = await Promise.all(sortedKeys.map((key) => imageFiles[key]()))
             animationType="boop"
           >
             <Icon aria-hidden="true" name="simple-icons:x" size="1.5rem" />
-            公式Xをフォロー
+            Xをフォロー
           </Link>
           <Link href="#upcoming-events" isButton type="secondary" animateOnHover animationType="boop">
             <Icon aria-hidden="true" name="lucide:calendar" size="1.5rem" />
@@ -135,13 +135,18 @@ const images = await Promise.all(sortedKeys.map((key) => imageFiles[key]()))
 </style>
 
 <script>
-  const images = document.querySelectorAll('.hero-image')
-  if (images.length > 1) {
-    let currentIndex = 0
-    setInterval(() => {
-      images[currentIndex].classList.replace('opacity-100', 'opacity-0')
-      currentIndex = (currentIndex + 1) % images.length
-      images[currentIndex].classList.replace('opacity-0', 'opacity-100')
-    }, 5000)
-  }
+  // Handle multiple image containers (mobile and desktop) independently
+  const containers = document.querySelectorAll('.hero .image-container')
+
+  containers.forEach((container) => {
+    const images = container.querySelectorAll('.hero-image')
+    if (images.length > 1) {
+      let currentIndex = 0
+      setInterval(() => {
+        images[currentIndex].classList.replace('opacity-100', 'opacity-0')
+        currentIndex = (currentIndex + 1) % images.length
+        images[currentIndex].classList.replace('opacity-0', 'opacity-100')
+      }, 5000)
+    }
+  })
 </script>
