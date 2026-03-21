@@ -26,7 +26,13 @@ const { icon, imgSrc, title = 'Title' }: Props = Astro.props
 ---
 
 <div class="feature flex flex-col gap-4">
-  {imgSrc ? <img src={imgSrc} alt="" aria-hidden="true" class="feature-image" /> : <Icon aria-hidden="true" name={icon || 'mdi:rocket'} />}
+  {
+    imgSrc ? (
+      <img src={imgSrc} alt="" aria-hidden="true" class="feature-image" />
+    ) : (
+      <Icon aria-hidden="true" name={icon || 'mdi:rocket'} />
+    )
+  }
   <div class="content">
     <Heading level="h3" size="h6" class="mb-2">{title}</Heading>
     <p>
