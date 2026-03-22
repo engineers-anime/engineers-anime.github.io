@@ -6,16 +6,16 @@
 
 ### 1. note マガジンの追加・変更
 
-`src/components/RecentNotes.astro` の `magazineUrls` 配列に RSS URL を追加します。
+`src/data/note-magazines.ts` の `magazineUrls` 配列に RSS URL を追加します。
 
-- **ファイル**: `src/components/RecentNotes.astro`
+- **ファイル**: `src/data/note-magazines.ts`
 - **形式**: `https://note.com/{ユーザーID}/m/{マガジンID}/rss`
 
 ### 2. 同人誌（BOOTH）の追加
 
-`src/utils/books.ts` に商品情報を追加します。
+`src/data/booth-books.ts` に商品情報を追加します。
 
-- **ファイル**: `src/utils/books.ts`
+- **ファイル**: `src/data/booth-books.ts`
 
 ### 3. スライドショー画像の更新
 

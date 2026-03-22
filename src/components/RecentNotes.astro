@@ -2,6 +2,7 @@
 import { Card, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import Parser from 'rss-parser'
+import { magazineUrls } from '../data/note-magazines'
 
 /**
  * RecentNotes Component
@@ -49,12 +50,6 @@ const parser = new Parser({
 })
 
 let recentNotes: NotePost[] = []
-
-const magazineUrls = [
-  'https://note.com/engineers_anime/m/ma5a592c1ae40/rss',
-  'https://note.com/engineers_anime/m/m79415b936c88/rss',
-  'https://note.com/engineers_anime/m/mc7ee7558601f/rss',
-]
 
 try {
   const feeds = await Promise.all(
