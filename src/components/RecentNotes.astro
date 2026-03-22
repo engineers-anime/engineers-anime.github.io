@@ -33,13 +33,18 @@ interface NotePost {
   url: string
   pubDate: string
   creatorName?: string
+  creatorImage?: string | null
 }
 
 const { class: className, limit = 6, title = '最新のnote記事' } = Astro.props
 
 const parser = new Parser({
   customFields: {
-    item: [['media:thumbnail', 'thumbnail']],
+    item: [
+      ['media:thumbnail', 'thumbnail'],
+      ['note:creatorName', 'noteCreatorName'],
+      ['note:creatorImage', 'noteCreatorImage'],
+    ],
   },
 })
 
@@ -78,7 +83,8 @@ try {
         featuredImage: (item as any).thumbnail || null,
         url: item.link || '',
         pubDate: item.pubDate || item.isoDate || '',
-        creatorName: item.creator,
+        creatorName: (item as any).noteCreatorName || item.creator,
+        creatorImage: (item as any).noteCreatorImage || null,
       }
     }),
   )
@@ -104,14 +110,23 @@ try {
               title={post.title}
             >
               <div class="mb-4 flex flex-col gap-2 text-sm">
-                <div class="flex items-start gap-2">
-                  <Icon name="lucide:user" size="1.2rem" class="text-primary-500 mt-0.5" />
+                <div class="flex items-center gap-2">
+                  {post.creatorImage ? (
+                    <img
+                      src={post.creatorImage}
+                      alt={post.creatorName}
+                      class="h-6 w-6 rounded-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <Icon name="lucide:user" size="1.2rem" class="text-primary-500" />
+                  )}
                   <span>
                     <strong>投稿者:</strong> {post.creatorName || 'エンジニアニメ'}
                   </span>
                 </div>
-                <div class="flex items-start gap-2">
-                  <Icon name="lucide:clock" size="1.2rem" class="text-primary-500 mt-0.5" />
+                <div class="flex items-center gap-2">
+                  <Icon name="lucide:clock" size="1.2rem" class="text-primary-500" />
                   <span>
                     <strong>公開日:</strong> {new Date(post.pubDate).toLocaleDateString('ja-JP')}
                   </span>
