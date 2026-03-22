@@ -6,6 +6,7 @@ import Counter from '@components/Counter.astro'
 import ContentMedia from '@components/ContentMedia.astro'
 import Slideshow from '@components/Slideshow.astro'
 import FeaturedPosts from '@components/FeaturedPosts.astro'
+import RecentNotes from '@components/RecentNotes.astro'
 import FeaturedBooks from '@components/FeaturedBooks.astro'
 import { Accordion, AccordionItem, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
@@ -89,6 +90,7 @@ const bookCount = books.length.toString()
     </p>
   </ContentMedia>
   <FeaturedPosts />
+  <RecentNotes />
   <FeaturedBooks />
   <section class="my-64">
     <div class="container grid grid-cols-1 gap-12 md:grid-cols-2">

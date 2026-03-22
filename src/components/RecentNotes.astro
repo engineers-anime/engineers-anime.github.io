@@ -1,0 +1,135 @@
+---
+import { Card, Heading, Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+import Parser from 'rss-parser'
+
+/**
+ * RecentNotes Component
+ *
+ * @description A component that displays recent posts from note magazine RSS feeds
+ */
+interface Props {
+  /**
+   * Additional classes to apply to the section
+   */
+  class?: string
+  /**
+   * The maximum number of posts to display
+   * @default 6
+   */
+  limit?: number
+  /**
+   * The title for the section
+   * @default "最新のnote記事"
+   */
+  title?: string
+}
+
+interface NotePost {
+  id: string
+  title: string
+  description: string
+  featuredImage: string | null
+  url: string
+  pubDate: string
+  creatorName?: string
+}
+
+const { class: className, limit = 6, title = '最新のnote記事' } = Astro.props
+
+const parser = new Parser({
+  customFields: {
+    item: [['media:thumbnail', 'thumbnail']],
+  },
+})
+
+let recentNotes: NotePost[] = []
+
+const magazineUrls = [
+  'https://note.com/engineers_anime/m/ma5a592c1ae40/rss',
+  'https://note.com/engineers_anime/m/m79415b936c88/rss',
+  'https://note.com/engineers_anime/m/mc7ee7558601f/rss',
+]
+
+try {
+  const feeds = await Promise.all(
+    magazineUrls.map(async (url) => {
+      try {
+        return await parser.parseURL(url)
+      } catch (e) {
+        console.error(`Error fetching note RSS from ${url}:`, e)
+        return { items: [] }
+      }
+    }),
+  )
+
+  const allItems = feeds.flatMap((feed) =>
+    feed.items.map((item) => {
+      // Clean description
+      let cleanDescription = (item.contentSnippet || item.content || '')
+        .replace(/<[^>]*>?/gm, '')
+        .trim()
+        .substring(0, 100)
+
+      return {
+        id: item.guid || item.link || '',
+        title: item.title || '',
+        description: cleanDescription,
+        featuredImage: (item as any).thumbnail || null,
+        url: item.link || '',
+        pubDate: item.pubDate || item.isoDate || '',
+        creatorName: item.creator,
+      }
+    }),
+  )
+
+  // Sort by date (newest first)
+  recentNotes = allItems.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, limit)
+} catch (error) {
+  console.error('Error processing note feeds:', error)
+}
+---
+
+<section id="recent-notes" class:list={[className, 'my-64']}>
+  <div class="container">
+    <Heading level="h2" class="mb-6">{title}</Heading>
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+      {
+        recentNotes.length > 0 ? (
+          recentNotes.map((post) => (
+            <Card
+              img={post.featuredImage || 'https://placehold.co/640x360?text=No+Image'}
+              url={post.url}
+              headingLevel="h2"
+              title={post.title}
+            >
+              <div class="mb-4 flex flex-col gap-2 text-sm">
+                <div class="flex items-start gap-2">
+                  <Icon name="lucide:user" size="1.2rem" class="text-primary-500 mt-0.5" />
+                  <span>
+                    <strong>投稿者:</strong> {post.creatorName || 'エンジニアニメ'}
+                  </span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <Icon name="lucide:clock" size="1.2rem" class="text-primary-500 mt-0.5" />
+                  <span>
+                    <strong>公開日:</strong> {new Date(post.pubDate).toLocaleDateString('ja-JP')}
+                  </span>
+                </div>
+              </div>
+              <p class="line-clamp-3">{post.description}...</p>
+            </Card>
+          ))
+        ) : (
+          <p class="text-xl">現在、表示できるnote記事がありません。</p>
+        )
+      }
+    </div>
+    <div class="mt-12">
+      <Link href="https://note.com/engineers_anime/magazines" isButton isExternal animateOnHover animationType="nudge">
+        noteで記事をもっと見る
+        <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
+      </Link>
+    </div>
+  </div>
+</section>
