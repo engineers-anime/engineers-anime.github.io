@@ -5,6 +5,7 @@ import themeConfig from '@theme-config'
 import { SEO } from 'astro-seo'
 import Header from '@components/Header.astro'
 import Footer from '@components/Footer.astro'
+import AnimatedBackground from '@components/AnimatedBackground.astro'
 import { ClientRouter } from 'astro:transitions'
 import type { ImageMetadata } from 'astro'
 
@@ -128,6 +129,7 @@ const imageUrl = new URL(imagePath, Astro.site).href
     <ClientRouter />
   </head>
   <body>
+    <AnimatedBackground />
     <Header />
     <main id="main-content" transition:animate="fade">
       <slot />
@@ -145,6 +147,7 @@ const imageUrl = new URL(imagePath, Astro.site).href
       body {
         display: flex;
         flex-direction: column;
+        background-color: transparent !important;
         padding-top: 64px;
         overflow-x: clip;
 
@@ -160,10 +163,13 @@ const imageUrl = new URL(imagePath, Astro.site).href
       pre {
         border: 2px solid var(--link-color);
         border-radius: 0.35rem;
+        background-color: var(--background-color);
         padding: 1rem;
       }
 
       .card {
+        background-color: var(--background-color) !important;
+
         a {
           @include text-decoration(transparent, var(--foreground-color), 4px, 2px);
         }

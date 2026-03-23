@@ -1,0 +1,218 @@
+<div class="animated-background" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="blob blob-5"></div>
+  <div class="blob blob-6"></div>
+</div>
+
+<style lang="scss">
+  .animated-background {
+    position: fixed;
+    z-index: -1;
+    transition: background-color var(--animation-speed-slow) var(--cubic-bezier);
+    inset: 0;
+    background-color: var(--background-color);
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .blob {
+    position: absolute;
+    opacity: 0.15;
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    width: 45vmax;
+    height: 45vmax;
+
+    :global(.darkmode) & {
+      opacity: 0.1;
+    }
+  }
+
+  .blob-1 {
+    top: -10%;
+    left: -10%;
+    animation:
+      move-1 120s infinite alternate ease-in-out,
+      shape-1 30s infinite alternate ease-in-out;
+    animation-delay:
+      -20s,
+      -5s;
+    background-color: var(--brand-primary);
+  }
+
+  .blob-2 {
+    right: -10%;
+    bottom: -10%;
+    animation:
+      move-2 140s infinite alternate ease-in-out,
+      shape-2 36s infinite alternate ease-in-out;
+    animation-delay:
+      -50s,
+      -12s;
+    background-color: var(--brand-secondary);
+  }
+
+  .blob-3 {
+    top: 20%;
+    right: -20%;
+    animation:
+      move-3 130s infinite alternate ease-in-out,
+      shape-3 40s infinite alternate ease-in-out;
+    animation-delay:
+      -80s,
+      -20s;
+    background-color: var(--brand-primary);
+  }
+
+  .blob-4 {
+    bottom: 20%;
+    left: -20%;
+    animation:
+      move-4 150s infinite alternate ease-in-out,
+      shape-4 44s infinite alternate ease-in-out;
+    animation-delay:
+      -110s,
+      -10s;
+    background-color: var(--brand-secondary);
+  }
+
+  .blob-5 {
+    top: 50%;
+    left: 50%;
+    opacity: 0.1;
+    animation:
+      move-5 160s infinite alternate ease-in-out,
+      shape-1 35s infinite alternate ease-in-out;
+    animation-delay:
+      -40s,
+      -15s;
+    background-color: var(--brand-primary);
+    width: 35vmax;
+    height: 35vmax;
+  }
+
+  .blob-6 {
+    top: 10%;
+    left: 40%;
+    opacity: 0.1;
+    animation:
+      move-6 180s infinite alternate ease-in-out,
+      shape-2 42s infinite alternate ease-in-out;
+    animation-delay:
+      -100s,
+      -25s;
+    background-color: var(--brand-secondary);
+    width: 40vmax;
+    height: 40vmax;
+  }
+
+  @keyframes shape-1 {
+    0% {
+      border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    }
+    33% {
+      border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
+    }
+    66% {
+      border-radius: 20% 80% 30% 70% / 50% 50% 50% 50%;
+    }
+    100% {
+      border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    }
+  }
+
+  @keyframes shape-2 {
+    0% {
+      border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
+    }
+    33% {
+      border-radius: 40% 60% 30% 70% / 40% 50% 50% 60%;
+    }
+    66% {
+      border-radius: 80% 20% 70% 30% / 30% 70% 40% 60%;
+    }
+    100% {
+      border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
+    }
+  }
+
+  @keyframes shape-3 {
+    0% {
+      border-radius: 50% 50% 50% 50% / 40% 60% 40% 60%;
+    }
+    50% {
+      border-radius: 20% 80% 20% 80% / 60% 40% 60% 40%;
+    }
+    100% {
+      border-radius: 50% 50% 50% 50% / 40% 60% 40% 60%;
+    }
+  }
+
+  @keyframes shape-4 {
+    0% {
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    }
+    50% {
+      border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+    }
+    100% {
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    }
+  }
+
+  @keyframes move-1 {
+    0% {
+      transform: translate(-30vw, -30vh) rotate(0deg);
+    }
+    100% {
+      transform: translate(70vw, 50vh) rotate(360deg);
+    }
+  }
+
+  @keyframes move-2 {
+    0% {
+      transform: translate(30vw, 30vh) rotate(0deg);
+    }
+    100% {
+      transform: translate(-70vw, -50vh) rotate(-360deg);
+    }
+  }
+
+  @keyframes move-3 {
+    0% {
+      transform: translate(40vw, -20vh) rotate(0deg);
+    }
+    100% {
+      transform: translate(-60vw, 40vh) rotate(180deg);
+    }
+  }
+
+  @keyframes move-4 {
+    0% {
+      transform: translate(-40vw, 20vh) rotate(0deg);
+    }
+    100% {
+      transform: translate(60vw, -40vh) rotate(-180deg);
+    }
+  }
+
+  @keyframes move-5 {
+    0% {
+      transform: translate(-20vw, 30vh) rotate(0deg);
+    }
+    100% {
+      transform: translate(40vw, -50vh) rotate(90deg);
+    }
+  }
+
+  @keyframes move-6 {
+    0% {
+      transform: translate(20vw, -30vh) rotate(0deg);
+    }
+    100% {
+      transform: translate(-40vw, 50vh) rotate(-90deg);
+    }
+  }
+</style>

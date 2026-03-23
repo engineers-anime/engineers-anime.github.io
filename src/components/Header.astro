@@ -30,8 +30,7 @@ import { HighContrast, ReducedMotion, SkipLink } from 'accessible-astro-componen
     top: 0;
     left: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background-color: var(--background-color);
+    background-color: transparent;
     width: 100%;
 
     li.type-icon {
@@ -49,12 +48,6 @@ import { HighContrast, ReducedMotion, SkipLink } from 'accessible-astro-componen
       svg {
         inline-size: 30px;
         block-size: 30px;
-      }
-    }
-
-    li.type-icon ~ li.type-icon {
-      @include breakpoint('nav') {
-        margin-inline-start: calc(var(--space-2xs) * -1);
       }
     }
 
