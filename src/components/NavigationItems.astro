@@ -22,10 +22,10 @@ import { Icon } from 'astro-icon/components'
         ) : !item.type || item.type === 'link' ? (
           <Link href={item.href} isExternal={item.external ?? false} hideIcon={!!item.icon}>
             {item.icon ? (
-              <>
+              <span class="icon-link-content">
                 <Icon aria-hidden="true" name={item.icon} size="32" />
-                <span class="sr-only">{item.label}</span>
-              </>
+                <span class="icon-label">{item.label}</span>
+              </span>
             ) : (
               item.label
             )}
@@ -45,14 +45,244 @@ import { Icon } from 'astro-icon/components'
       </li>
     ))
   }
-  {
-    themeConfig.navigation.darkmode && (
-      <li class="menu-item type-icon">
-        <DarkMode>
-          <Icon aria-hidden="true" name="lucide:moon" slot="light" />
-          <Icon aria-hidden="true" name="lucide:sun" slot="dark" />
-        </DarkMode>
+  <li class="menu-item has-dropdown type-icon">
+    <button aria-haspopup="true" aria-expanded="false" class="settings-toggle">
+      <Icon aria-hidden="true" name="lucide:settings" size="32" />
+      <span class="icon-label">設定</span>
+    </button>
+    <ul class="dropdown-menu settings-menu">
+      {
+        themeConfig.navigation.darkmode && (
+          <li class="submenu-item">
+            <div class="setting-item theme-toggle">
+              <span class="setting-label">テーマ</span>
+              <DarkMode />
+            </div>
+          </li>
+        )
+      }
+      <li class="submenu-item">
+        <button
+          id="bg-animation-toggle"
+          aria-label="背景アニメーションの切り替え"
+          class="setting-item bg-animation-toggle-btn"
+        >
+          <span class="setting-label">背景雲</span>
+          <div class="icon-cloud-on setting-toggle-content">
+            <Icon aria-hidden="true" name="lucide:cloud-off" size="24" />
+          </div>
+          <div class="icon-cloud-off setting-toggle-content">
+            <Icon aria-hidden="true" name="lucide:cloud" size="24" />
+          </div>
+        </button>
       </li>
-    )
-  }
+    </ul>
+  </li>
 </ul>
+
+<style lang="scss" is:global>
+  @use '../assets/scss/base/mixins' as *;
+  @use '../assets/scss/base/breakpoint' as *;
+
+  .icon-link-content,
+  .settings-toggle {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: left;
+  }
+
+  .icon-label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    white-space: nowrap;
+
+    @include breakpoint('nav') {
+      display: none;
+    }
+  }
+
+  // Tooltip for desktop
+  .type-icon {
+    position: relative;
+
+    &:hover .icon-label {
+      @include breakpoint('nav') {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1001;
+        margin-top: 0.5rem;
+        box-shadow: var(--elevation-2);
+        border-radius: 4px;
+        background-color: var(--color-neutral-800);
+        padding: 0.2rem 0.6rem;
+        pointer-events: none;
+        color: var(--color-neutral-100);
+        font-size: 0.75rem;
+        line-height: 1.2;
+
+        &::before {
+          position: absolute;
+          bottom: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 5px solid transparent;
+          border-bottom-color: var(--color-neutral-800);
+          content: '';
+        }
+      }
+    }
+  }
+
+  .settings-menu {
+    right: 0 !important;
+    left: 0 !important;
+    padding: var(--space-s) !important;
+    width: 100% !important;
+    max-width: 100vw;
+    min-inline-size: 0 !important;
+
+    @include breakpoint('nav') {
+      right: 0 !important;
+      left: auto !important;
+      width: auto !important;
+      min-inline-size: 220px !important;
+    }
+  }
+
+  // Row styling for both types of buttons
+  .setting-item,
+  .darkmode-toggle {
+    display: block !important;
+    transition: background-color var(--animation-speed-fast) var(--cubic-bezier);
+    cursor: pointer;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: var(--radius-l) !important;
+    background: none !important;
+    padding: 0 0.75rem !important;
+    width: 100% !important;
+    color: var(--foreground-color) !important;
+    text-decoration: none;
+
+    &:hover {
+      .setting-label {
+        text-decoration: underline;
+        text-decoration-style: wavy;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 7px;
+      }
+    }
+
+    :global(.darkmode) &:hover {
+      .setting-label {
+        text-decoration: underline;
+        text-decoration-style: wavy;
+        text-decoration-color: rgba(255, 255, 255, 0.8) !important;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 7px;
+      }
+    }
+  }
+
+  // Specifically for the cloud toggle which is a normal button
+  .setting-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  // Specifically for theme toggle which wraps content in slots
+  .setting-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  // Specifically for theme toggle in settings menu
+  .theme-toggle {
+    background-color: transparent;
+
+    .darkmode-toggle {
+      background-color: transparent !important;
+      padding: 0 !important;
+      width: auto !important;
+      height: 42px;
+
+      &:hover {
+        background-color: transparent !important;
+      }
+
+      :global(svg) {
+        margin: 0 !important;
+        inline-size: 24px !important;
+        block-size: 24px !important;
+      }
+    }
+  }
+
+  .setting-label {
+    flex: 1 1 auto;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-align: left;
+  }
+
+  .setting-toggle-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem;
+    min-width: 42px;
+    height: 42px;
+
+    svg {
+      margin: 0 !important;
+      inline-size: 24px !important;
+      block-size: 24px !important;
+    }
+  }
+
+  .bg-animation-toggle-btn {
+    .icon-cloud-on {
+      display: flex;
+    }
+    .icon-cloud-off {
+      display: none;
+    }
+
+    body[data-hide-clouds='true'] & {
+      .icon-cloud-on {
+        display: none;
+      }
+      .icon-cloud-off {
+        display: flex;
+      }
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const themeToggles = document.querySelectorAll('.theme-toggle')
+    themeToggles.forEach((toggle) => {
+      const item = toggle.closest('.submenu-item')
+      if (item) {
+        item.addEventListener('click', (event) => {
+          const button = toggle.querySelector('.darkmode-toggle') as HTMLButtonElement | null
+          const target = event.target as HTMLElement
+
+          if (button && target !== button && !button.contains(target)) {
+            button.click()
+          }
+        })
+      }
+    })
+  })
+</script>

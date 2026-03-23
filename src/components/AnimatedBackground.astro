@@ -11,11 +11,18 @@
   .animated-background {
     position: fixed;
     z-index: -1;
-    transition: background-color var(--animation-speed-slow) var(--cubic-bezier);
+    transition:
+      background-color var(--animation-speed-slow) var(--cubic-bezier),
+      opacity var(--animation-speed-slow) var(--cubic-bezier);
     inset: 0;
     background-color: var(--background-color);
     overflow: hidden;
     pointer-events: none;
+
+    :global(body[data-hide-clouds='true']) & {
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 
   .blob {
@@ -216,3 +223,32 @@
     }
   }
 </style>
+
+<script>
+  const setupBackgroundToggle = () => {
+    const btn = document.getElementById('bg-animation-toggle')
+    if (!btn) return
+
+    // Clean up any old listeners to prevent duplicates
+    btn.removeEventListener('click', handleToggle)
+    btn.addEventListener('click', handleToggle)
+  }
+
+  const handleToggle = () => {
+    const body = document.body
+    const currentlyHidden = body.getAttribute('data-hide-clouds') === 'true'
+    const nextState = !currentlyHidden
+
+    if (nextState) {
+      body.setAttribute('data-hide-clouds', 'true')
+    } else {
+      body.removeAttribute('data-hide-clouds')
+    }
+
+    localStorage.setItem('hide-clouds', String(nextState))
+  }
+
+  // Handle both initial load and view transitions
+  setupBackgroundToggle()
+  document.addEventListener('astro:page-load', setupBackgroundToggle)
+</script>

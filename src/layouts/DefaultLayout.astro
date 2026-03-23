@@ -129,6 +129,11 @@ const imageUrl = new URL(imagePath, Astro.site).href
     <ClientRouter />
   </head>
   <body>
+    <script is:inline>
+      if (localStorage.getItem('hide-clouds') === 'true') {
+        document.body.setAttribute('data-hide-clouds', 'true')
+      }
+    </script>
     <AnimatedBackground />
     <Header />
     <main id="main-content" transition:animate="fade">
