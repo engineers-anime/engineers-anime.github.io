@@ -6,6 +6,7 @@
  * 商品名や画像などはBOOTHから自動的に取得されます。
  */
 export const books = [
-  'https://engineers-anime.booth.pm/items/7666750',
+  'https://engineers-anime.booth.pm/items/8217853',
   'https://engineers-anime.booth.pm/items/7666770',
+  'https://engineers-anime.booth.pm/items/7666750',
 ]
