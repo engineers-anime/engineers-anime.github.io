@@ -226,12 +226,14 @@
 
 <script>
   const setupBackgroundToggle = () => {
-    const btn = document.getElementById('bg-animation-toggle')
-    if (!btn) return
+    const buttons = document.querySelectorAll('.bg-animation-toggle-btn')
+    if (buttons.length === 0) return
 
-    // Clean up any old listeners to prevent duplicates
-    btn.removeEventListener('click', handleToggle)
-    btn.addEventListener('click', handleToggle)
+    buttons.forEach((btn) => {
+      // Clean up any old listeners to prevent duplicates
+      btn.removeEventListener('click', handleToggle)
+      btn.addEventListener('click', handleToggle)
+    })
   }
 
   const handleToggle = () => {

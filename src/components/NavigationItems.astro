@@ -57,7 +57,7 @@ import { Icon } from 'astro-icon/components'
   }
   <li class="menu-item type-icon bg-animation-toggle">
     <div class="icon-link-content">
-      <button id="bg-animation-toggle" aria-label="背景アニメーションの切り替え" class="bg-animation-toggle-btn">
+      <button aria-label="背景アニメーションの切り替え" class="bg-animation-toggle-btn">
         <div class="icon-cloud-on">
           <Icon aria-hidden="true" name="lucide:cloud-off" size="32" />
         </div>
@@ -197,7 +197,7 @@ import { Icon } from 'astro-icon/components'
     const bgToggles = document.querySelectorAll('.bg-animation-toggle')
     bgToggles.forEach((toggle) => {
       toggle.addEventListener('click', (event) => {
-        const button = toggle.querySelector('#bg-animation-toggle') as HTMLButtonElement | null
+        const button = toggle.querySelector('.bg-animation-toggle-btn') as HTMLButtonElement | null
         const target = event.target as HTMLElement
 
         if (button && target !== button && !button.contains(target)) {
