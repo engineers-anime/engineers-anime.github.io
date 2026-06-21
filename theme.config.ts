@@ -26,17 +26,17 @@ export default defineThemeConfig({
     items: [
       {
         type: 'link',
-        label: 'Discord',
-        href: 'https://discord.gg/dgPWe6rNWS',
-        icon: 'simple-icons:discord',
+        label: 'Xをフォロー',
+        href: 'https://twitter.com/intent/follow?screen_name=engineers_anime',
+        icon: 'simple-icons:x',
         external: true,
         excludeFromLauncher: true,
       },
       {
         type: 'link',
-        label: 'Xをフォロー',
-        href: 'https://twitter.com/intent/follow?screen_name=engineers_anime',
-        icon: 'simple-icons:x',
+        label: 'Discord',
+        href: 'https://discord.gg/dgPWe6rNWS',
+        icon: 'simple-icons:discord',
         external: true,
         excludeFromLauncher: true,
       },

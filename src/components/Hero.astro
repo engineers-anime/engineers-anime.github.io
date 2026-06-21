@@ -124,7 +124,13 @@ const images = await Promise.all(sortedKeys.map((key) => imageFiles[key]()))
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
+    filter: drop-shadow(2px 2px 0 #fff) drop-shadow(-2px -2px 0 #fff) drop-shadow(2px -2px 0 #fff)
+      drop-shadow(-2px 2px 0 #fff);
     padding-top: 0.1em;
+
+    :global(.darkmode) & {
+      filter: none;
+    }
   }
 
   .image-container {

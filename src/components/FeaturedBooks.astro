@@ -2,7 +2,7 @@
 import { Card, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { parse } from 'node-html-parser'
-import { books } from '@utils/books'
+import { books } from '../data/booth-books'
 
 /**
  * FeaturedBooks Component
@@ -24,16 +24,16 @@ interface Props {
 const { class: className, title = '制作した技術同人誌' } = Astro.props
 
 const bookDetails = await Promise.all(
-  books.map(async (book) => {
+  books.map(async (url) => {
     let details = {
       title: 'エンジニアニメ技術同人誌',
       description: 'アニメと技術を掛け合わせた知見をまとめた一冊です。',
       image: 'https://placehold.co/640x360?text=BOOTH+Book',
-      url: book.url,
+      url: url,
     }
 
     try {
-      const res = await fetch(book.url, {
+      const res = await fetch(url, {
         headers: { 'User-Agent': 'Mozilla/5.0' },
       })
       const html = await res.text()

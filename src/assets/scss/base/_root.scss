@@ -142,11 +142,6 @@
   --target-size-max: 44px;
   --backdrop-color: hsl(0deg 100% 0% / 0.75);
   --backdrop-blur: blur(3px);
-
-  // kbd
-  --kbd-color-text: light-dark(var(--color-gray-200), var(--color-gray-800));
-  --kbd-color-border: light-dark(var(--color-gray-700), var(--color-gray-300));
-  --kbd-color-background: light-dark(var(--color-gray-1000), var(--color-gray-200));
 }
 
 // dark color scheme overrides

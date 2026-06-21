@@ -13,9 +13,7 @@ import { Icon } from 'astro-icon/components'
 <ul class="menu">
   {
     themeConfig.navigation.items.map((item) => (
-      <li
-        class={`menu-item ${item.type === 'dropdown' ? 'has-dropdown' : ''} ${item.icon ? 'type-icon animate-rotate' : ''}`}
-      >
+      <li class={`menu-item ${item.type === 'dropdown' ? 'has-dropdown' : ''} ${item.icon ? 'type-icon' : ''}`}>
         {item.type === 'dropdown' ? (
           <button aria-haspopup="true" aria-expanded="false">
             {item.label}
@@ -24,10 +22,10 @@ import { Icon } from 'astro-icon/components'
         ) : !item.type || item.type === 'link' ? (
           <Link href={item.href} isExternal={item.external ?? false} hideIcon={!!item.icon}>
             {item.icon ? (
-              <>
+              <span class="icon-link-content">
                 <Icon aria-hidden="true" name={item.icon} size="32" />
-                <span class="sr-only">{item.label}</span>
-              </>
+                <span class="icon-label">{item.label}</span>
+              </span>
             ) : (
               item.label
             )}
@@ -49,12 +47,163 @@ import { Icon } from 'astro-icon/components'
   }
   {
     themeConfig.navigation.darkmode && (
-      <li class="menu-item type-icon animate-rotate">
-        <DarkMode>
-          <Icon aria-hidden="true" name="lucide:moon" slot="light" />
-          <Icon aria-hidden="true" name="lucide:sun" slot="dark" />
-        </DarkMode>
+      <li class="menu-item type-icon theme-toggle">
+        <div class="icon-link-content">
+          <DarkMode />
+          <span class="icon-label">テーマ</span>
+        </div>
       </li>
     )
   }
+  <li class="menu-item type-icon bg-animation-toggle">
+    <div class="icon-link-content">
+      <button aria-label="背景アニメーションの切り替え" class="bg-animation-toggle-btn">
+        <div class="icon-cloud-on">
+          <Icon aria-hidden="true" name="lucide:cloud-off" size="32" />
+        </div>
+        <div class="icon-cloud-off">
+          <Icon aria-hidden="true" name="lucide:cloud" size="32" />
+        </div>
+      </button>
+      <span class="icon-label">背景雲</span>
+    </div>
+  </li>
 </ul>
+
+<style lang="scss" is:global>
+  @use '../assets/scss/base/mixins' as *;
+  @use '../assets/scss/base/breakpoint' as *;
+
+  .icon-link-content {
+    display: flex !important;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: left;
+  }
+
+  .icon-label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    white-space: nowrap;
+
+    @include breakpoint('nav') {
+      display: none;
+    }
+  }
+
+  // Tooltip for desktop
+  .type-icon {
+    position: relative;
+
+    &:hover .icon-label {
+      @include breakpoint('nav') {
+        display: block;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1001;
+        margin-top: 0.5rem;
+        box-shadow: var(--elevation-2);
+        border-radius: 4px;
+        background-color: var(--color-neutral-800);
+        padding: 0.2rem 0.6rem;
+        pointer-events: none;
+        color: var(--color-neutral-100);
+        font-size: 0.75rem;
+        line-height: 1.2;
+
+        &::before {
+          position: absolute;
+          bottom: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 5px solid transparent;
+          border-bottom-color: var(--color-neutral-800);
+          content: '';
+        }
+      }
+    }
+  }
+
+  // Specifically for theme toggle and bg animation toggle
+  .theme-toggle,
+  .bg-animation-toggle {
+    cursor: pointer;
+
+    .icon-link-content {
+      height: 100%;
+    }
+
+    button,
+    .darkmode-toggle {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border: none !important;
+      background: none !important;
+      padding: 0 !important;
+      color: var(--foreground-color) !important;
+
+      &:hover {
+        background: none !important;
+      }
+
+      :global(svg) {
+        margin: 0 !important;
+        inline-size: 32px !important;
+        block-size: 32px !important;
+      }
+    }
+  }
+
+  .bg-animation-toggle-btn {
+    .icon-cloud-on {
+      display: flex;
+    }
+    .icon-cloud-off {
+      display: none;
+    }
+
+    body[data-hide-clouds='true'] & {
+      .icon-cloud-on {
+        display: none;
+      }
+      .icon-cloud-off {
+        display: flex;
+      }
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // Theme toggle click handler for the whole area
+    const themeToggles = document.querySelectorAll('.theme-toggle')
+    themeToggles.forEach((toggle) => {
+      toggle.addEventListener('click', (event) => {
+        const button = toggle.querySelector('.darkmode-toggle') as HTMLButtonElement | null
+        const target = event.target as HTMLElement
+
+        if (button && target !== button && !button.contains(target)) {
+          button.click()
+        }
+      })
+    })
+
+    // BG Animation toggle click handler for the whole area
+    const bgToggles = document.querySelectorAll('.bg-animation-toggle')
+    bgToggles.forEach((toggle) => {
+      toggle.addEventListener('click', (event) => {
+        const button = toggle.querySelector('.bg-animation-toggle-btn') as HTMLButtonElement | null
+        const target = event.target as HTMLElement
+
+        if (button && target !== button && !button.contains(target)) {
+          button.click()
+        }
+      })
+    })
+  })
+</script>
