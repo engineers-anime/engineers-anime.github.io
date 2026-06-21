@@ -15,6 +15,7 @@ const viteConfig = {
         logger: {
           warn: () => {},
         },
+        loadPaths: ['src'],
       },
     },
   },

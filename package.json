@@ -30,8 +30,8 @@
     "url": "https://github.com/engineers-anime/engineers-anime.github.io/issues"
   },
   "devDependencies": {
-    "@astrojs/mdx": "^4.3.13",
-    "@astrojs/partytown": "^2.1.4",
+    "@astrojs/mdx": "^6.0.3",
+    "@astrojs/partytown": "^2.1.7",
     "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.39.2",
     "@iconify-json/lucide": "^1.2.87",
@@ -39,7 +39,7 @@
     "@types/sanitize-html": "^2.16.0",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
-    "astro": "^5.16.15",
+    "astro": "^6.4.8",
     "astro-compress": "^2.3.9",
     "astro-eslint-parser": "^1.2.2",
     "astro-icon": "^1.1.5",
@@ -57,7 +57,7 @@
     "tailwindcss": "^4.1.18"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/vite": "^4.1.18",
     "accessible-astro-components": "^5.1.2",
     "astro-seo": "^1.1.0",
