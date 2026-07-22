@@ -1,0 +1,114 @@
+---
+import { Card, Heading, Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+import { parse } from 'node-html-parser'
+
+interface Props {
+  class?: string
+  limit?: number
+}
+
+interface PosfiePost {
+  title: string
+  image: string | null
+  url: string
+  creator: string
+  creatorImage: string | null
+  publishedAt: string
+}
+
+const { class: className, limit = 6 } = Astro.props
+const tagUrl = 'https://posfie.com/t/エンジニアニメ'
+let posts: PosfiePost[] = []
+
+try {
+  const response = await fetch(encodeURI(tagUrl), {
+    headers: { 'User-Agent': 'Mozilla/5.0' },
+  })
+
+  if (!response.ok) throw new Error(`Status code ${response.status}`)
+
+  const root = parse(await response.text())
+  const candidates = root
+    .querySelectorAll('.user_show_posts_box > section')
+    .map((item) => {
+      const href = item.querySelector('.title a')?.getAttribute('href') || ''
+
+      return {
+        title: item.querySelector('h3')?.text.trim() || '',
+        image: item.querySelector('.thumb img')?.getAttribute('data-s') || null,
+        url: href ? new URL(href, tagUrl).toString() : tagUrl,
+        creator: item.querySelector('.user_icon span')?.text.trim() || 'Posfie',
+        creatorImage: item.querySelector('.user_icon img')?.getAttribute('data-s') || null,
+        publishedAt: item.querySelector('time')?.getAttribute('datetime') || '',
+      }
+    })
+    .filter((post) => post.title)
+    .slice(0, limit)
+
+  posts = await Promise.all(
+    candidates.map(async (post) => {
+      if (!post.image) return post
+
+      try {
+        const imageResponse = await fetch(post.image, { method: 'HEAD' })
+        return imageResponse.ok ? post : { ...post, image: null }
+      } catch {
+        return { ...post, image: null }
+      }
+    }),
+  )
+} catch (error) {
+  console.error('Error fetching Posfie posts:', error)
+}
+---
+
+<section id="recent-posfie" class:list={[className, 'my-64']}>
+  <div class="container">
+    <Heading level="h2" class="mb-6">イベントの様子</Heading>
+    <p class="mb-8 text-xl">Posfieにまとめられた、エンジニアニメのイベントに関するXの投稿をご紹介します。</p>
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+      {
+        posts.length > 0 ? (
+          posts.map((post) => (
+            <Card
+              img={post.image || 'https://placehold.co/640x360?text=No+Image'}
+              url={post.url}
+              headingLevel="h2"
+              title={post.title}
+            >
+              <div class="mb-4 flex flex-col gap-2 text-sm">
+                <div class="flex items-center gap-2">
+                  {post.creatorImage ? (
+                    <img src={post.creatorImage} alt="" class="h-6 w-6 rounded-full object-cover" loading="lazy" />
+                  ) : (
+                    <Icon name="lucide:user" size="1.2rem" class="text-primary-500" />
+                  )}
+                  <span>
+                    <strong>作成者:</strong> {post.creator}
+                  </span>
+                </div>
+                {post.publishedAt && (
+                  <div class="flex items-center gap-2">
+                    <Icon name="lucide:clock" size="1.2rem" class="text-primary-500" />
+                    <span>
+                      <strong>公開日:</strong> {new Date(post.publishedAt).toLocaleDateString('ja-JP')}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </Card>
+          ))
+        ) : (
+          <p class="text-xl">現在、表示できるPosfieまとめがありません。</p>
+        )
+      }
+    </div>
+    <div class="mt-12">
+      <Link href={tagUrl} isButton isExternal animateOnHover animationType="nudge">
+        Posfieでもっと見る
+        <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
+      </Link>
+    </div>
+  </div>
+</section>

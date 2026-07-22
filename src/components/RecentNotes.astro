@@ -24,6 +24,18 @@ interface Props {
    * @default "最新のnote記事"
    */
   title?: string
+  /** RSS feed URLs to display */
+  feedUrls?: string[]
+  /** Unique section id */
+  sectionId?: string
+  /** Optional introduction shown below the heading */
+  description?: string
+  /** Destination of the section button */
+  moreHref?: string
+  /** Label of the section button */
+  moreLabel?: string
+  /** Message shown when the feed has no entries */
+  emptyMessage?: string
 }
 
 interface NotePost {
@@ -37,7 +49,17 @@ interface NotePost {
   creatorImage?: string | null
 }
 
-const { class: className, limit = 6, title = '最新のnote記事' } = Astro.props
+const {
+  class: className,
+  limit = 6,
+  title = '最新のnote記事',
+  feedUrls = magazineUrls,
+  sectionId = 'recent-notes',
+  description,
+  moreHref = 'https://note.com/engineers_anime/magazines',
+  moreLabel = 'noteで記事をもっと見る',
+  emptyMessage = '現在、表示できるnote記事がありません。',
+} = Astro.props
 
 const parser = new Parser({
   customFields: {
@@ -53,9 +75,9 @@ let recentNotes: NotePost[] = []
 
 try {
   const feeds = await Promise.all(
-    magazineUrls.map(async (url) => {
+    feedUrls.map(async (url) => {
       try {
-        return await parser.parseURL(url)
+        return await parser.parseURL(encodeURI(url))
       } catch (e) {
         console.error(`Error fetching note RSS from ${url}:`, e)
         return { items: [] }
@@ -91,9 +113,10 @@ try {
 }
 ---
 
-<section id="recent-notes" class:list={[className, 'my-64']}>
+<section id={sectionId} class:list={[className, 'my-64']}>
   <div class="container">
     <Heading level="h2" class="mb-6">{title}</Heading>
+    {description && <p class="mb-8 text-xl">{description}</p>}
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
         recentNotes.length > 0 ? (
@@ -131,13 +154,13 @@ try {
             </Card>
           ))
         ) : (
-          <p class="text-xl">現在、表示できるnote記事がありません。</p>
+          <p class="text-xl">{emptyMessage}</p>
         )
       }
     </div>
     <div class="mt-12">
-      <Link href="https://note.com/engineers_anime/magazines" isButton isExternal animateOnHover animationType="nudge">
-        noteで記事をもっと見る
+      <Link href={moreHref} isButton isExternal animateOnHover animationType="nudge">
+        {moreLabel}
         <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
       </Link>
     </div>

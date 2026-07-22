@@ -7,6 +7,7 @@ import ContentMedia from '@components/ContentMedia.astro'
 import Slideshow from '@components/Slideshow.astro'
 import FeaturedPosts from '@components/FeaturedPosts.astro'
 import RecentNotes from '@components/RecentNotes.astro'
+import RecentPosfie from '@components/RecentPosfie.astro'
 import FeaturedBooks from '@components/FeaturedBooks.astro'
 import { Accordion, AccordionItem, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
@@ -90,7 +91,20 @@ const bookCount = books.length.toString()
     </p>
   </ContentMedia>
   <FeaturedPosts />
-  <RecentNotes />
+  <RecentNotes
+    title="エンジニアニメ公式note記事"
+    description="エンジニアニメ運営からのお知らせや、イベント・活動に関する公式記事をご紹介します。"
+  />
+  <RecentNotes
+    sectionId="community-note-posts"
+    title="コミュニティメンバーの感想ブログ"
+    description="エンジニアニメのイベントや活動に参加したコミュニティメンバーの感想をご紹介します。"
+    feedUrls={['https://note.com/hashtag/エンジニアニメ/rss']}
+    moreHref="https://note.com/hashtag/エンジニアニメ"
+    moreLabel="みんなの感想をnoteで見る"
+    emptyMessage="現在、表示できる感想ブログがありません。"
+  />
+  <RecentPosfie />
   <FeaturedBooks />
   <section class="my-64">
     <div class="container grid grid-cols-1 gap-12 md:grid-cols-2">
