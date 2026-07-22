@@ -60,6 +60,12 @@ const {
   moreLabel = 'noteで記事をもっと見る',
   emptyMessage = '現在、表示できるnote記事がありません。',
 } = Astro.props
+const isEnglish = Astro.url.pathname.startsWith('/en')
+const displayMoreLabel = isEnglish && moreLabel === 'noteで記事をもっと見る' ? 'View more on note' : moreLabel
+const displayEmptyMessage =
+  isEnglish && emptyMessage === '現在、表示できるnote記事がありません。'
+    ? 'No note articles are available right now.'
+    : emptyMessage
 
 const parser = new Parser({
   customFields: {
@@ -140,13 +146,14 @@ try {
                     <Icon name="lucide:user" size="1.2rem" class="text-primary-500" />
                   )}
                   <span>
-                    <strong>投稿者:</strong> {post.creatorName || 'エンジニアニメ'}
+                    <strong>{isEnglish ? 'Author:' : '投稿者:'}</strong> {post.creatorName || 'エンジニアニメ'}
                   </span>
                 </div>
                 <div class="flex items-center gap-2">
                   <Icon name="lucide:clock" size="1.2rem" class="text-primary-500" />
                   <span>
-                    <strong>公開日:</strong> {new Date(post.pubDate).toLocaleDateString('ja-JP')}
+                    <strong>{isEnglish ? 'Published:' : '公開日:'}</strong>{' '}
+                    {new Date(post.pubDate).toLocaleDateString(isEnglish ? 'en-US' : 'ja-JP')}
                   </span>
                 </div>
               </div>
@@ -154,13 +161,13 @@ try {
             </Card>
           ))
         ) : (
-          <p class="text-xl">{emptyMessage}</p>
+          <p class="text-xl">{displayEmptyMessage}</p>
         )
       }
     </div>
     <div class="mt-12">
       <Link href={moreHref} isButton isExternal animateOnHover animationType="nudge">
-        {moreLabel}
+        {displayMoreLabel}
         <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
       </Link>
     </div>

@@ -3,6 +3,8 @@ import ResponsiveToggle from './ResponsiveToggle.astro'
 import NavigationItems from './NavigationItems.astro'
 import Logo from './Logo.astro'
 
+const isEnglish = Astro.url.pathname.startsWith('/en')
+
 /**
  * Navigation Component
  *
@@ -14,12 +16,15 @@ import Logo from './Logo.astro'
   <div class="container">
     <Logo />
     <div class="wrapper">
-      <nav class="desktop-menu" aria-label="メインナビゲーション（デスクトップ）">
+      <nav
+        class="desktop-menu"
+        aria-label={isEnglish ? 'Main navigation (desktop)' : 'メインナビゲーション（デスクトップ）'}
+      >
         <NavigationItems />
       </nav>
       <ResponsiveToggle />
     </div>
-    <nav class="mobile-menu" aria-label="メインナビゲーション（モバイル）">
+    <nav class="mobile-menu" aria-label={isEnglish ? 'Main navigation (mobile)' : 'メインナビゲーション（モバイル）'}>
       <NavigationItems />
     </nav>
   </div>

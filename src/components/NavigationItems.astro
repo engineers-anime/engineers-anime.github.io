@@ -3,6 +3,9 @@ import themeConfig from '@theme-config'
 import { Link, DarkMode } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 
+const isEnglish = Astro.url.pathname.startsWith('/en')
+const getNavigationLabel = (label: string) => (isEnglish && label === 'Xをフォロー' ? 'Follow on X' : label)
+
 /**
  * Navigation Items Component
  *
@@ -16,7 +19,7 @@ import { Icon } from 'astro-icon/components'
       <li class={`menu-item ${item.type === 'dropdown' ? 'has-dropdown' : ''} ${item.icon ? 'type-icon' : ''}`}>
         {item.type === 'dropdown' ? (
           <button aria-haspopup="true" aria-expanded="false">
-            {item.label}
+            {getNavigationLabel(item.label)}
             <Icon aria-hidden="true" name="lucide:chevron-down" size="32" />
           </button>
         ) : !item.type || item.type === 'link' ? (
@@ -24,10 +27,10 @@ import { Icon } from 'astro-icon/components'
             {item.icon ? (
               <span class="icon-link-content">
                 <Icon aria-hidden="true" name={item.icon} size="32" />
-                <span class="icon-label">{item.label}</span>
+                <span class="icon-label">{getNavigationLabel(item.label)}</span>
               </span>
             ) : (
-              item.label
+              getNavigationLabel(item.label)
             )}
           </Link>
         ) : null}
@@ -50,14 +53,17 @@ import { Icon } from 'astro-icon/components'
       <li class="menu-item type-icon theme-toggle">
         <div class="icon-link-content">
           <DarkMode />
-          <span class="icon-label">テーマ</span>
+          <span class="icon-label">{isEnglish ? 'Theme' : 'テーマ'}</span>
         </div>
       </li>
     )
   }
   <li class="menu-item type-icon bg-animation-toggle">
     <div class="icon-link-content">
-      <button aria-label="背景アニメーションの切り替え" class="bg-animation-toggle-btn">
+      <button
+        aria-label={isEnglish ? 'Toggle background animation' : '背景アニメーションの切り替え'}
+        class="bg-animation-toggle-btn"
+      >
         <div class="icon-cloud-on">
           <Icon aria-hidden="true" name="lucide:cloud-off" size="32" />
         </div>
@@ -65,8 +71,16 @@ import { Icon } from 'astro-icon/components'
           <Icon aria-hidden="true" name="lucide:cloud" size="32" />
         </div>
       </button>
-      <span class="icon-label">背景雲</span>
+      <span class="icon-label">{isEnglish ? 'Clouds' : '背景雲'}</span>
     </div>
+  </li>
+  <li class="menu-item type-icon language-switcher">
+    <Link href={isEnglish ? '/' : '/en/'} hideIcon>
+      <span class="icon-link-content">
+        <Icon aria-hidden="true" name="lucide:languages" size="32" />
+        <span class="icon-label">{isEnglish ? '日本語' : 'English'}</span>
+      </span>
+    </Link>
   </li>
 </ul>
 

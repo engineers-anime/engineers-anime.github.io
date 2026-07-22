@@ -18,6 +18,7 @@ interface PosfiePost {
 }
 
 const { class: className, limit = 6 } = Astro.props
+const isEnglish = Astro.url.pathname.startsWith('/en')
 const tagUrl = 'https://posfie.com/t/エンジニアニメ'
 let posts: PosfiePost[] = []
 
@@ -65,8 +66,14 @@ try {
 
 <section id="recent-posfie" class:list={[className, 'my-64']}>
   <div class="container">
-    <Heading level="h2" class="mb-6">イベントの様子</Heading>
-    <p class="mb-8 text-xl">Posfieにまとめられた、エンジニアニメのイベントに関するXの投稿をご紹介します。</p>
+    <Heading level="h2" class="mb-6">{isEnglish ? 'Event Highlights' : 'イベントの様子'}</Heading>
+    <p class="mb-8 text-xl">
+      {
+        isEnglish
+          ? 'Browse X posts from EngineerAnime events collected on Posfie. The linked collections are available in Japanese.'
+          : 'Posfieにまとめられた、エンジニアニメのイベントに関するXの投稿をご紹介します。'
+      }
+    </p>
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
         posts.length > 0 ? (
@@ -85,14 +92,15 @@ try {
                     <Icon name="lucide:user" size="1.2rem" class="text-primary-500" />
                   )}
                   <span>
-                    <strong>作成者:</strong> {post.creator}
+                    <strong>{isEnglish ? 'Curator:' : '作成者:'}</strong> {post.creator}
                   </span>
                 </div>
                 {post.publishedAt && (
                   <div class="flex items-center gap-2">
                     <Icon name="lucide:clock" size="1.2rem" class="text-primary-500" />
                     <span>
-                      <strong>公開日:</strong> {new Date(post.publishedAt).toLocaleDateString('ja-JP')}
+                      <strong>{isEnglish ? 'Published:' : '公開日:'}</strong>{' '}
+                      {new Date(post.publishedAt).toLocaleDateString(isEnglish ? 'en-US' : 'ja-JP')}
                     </span>
                   </div>
                 )}
@@ -100,13 +108,17 @@ try {
             </Card>
           ))
         ) : (
-          <p class="text-xl">現在、表示できるPosfieまとめがありません。</p>
+          <p class="text-xl">
+            {isEnglish
+              ? 'No Posfie collections are available right now.'
+              : '現在、表示できるPosfieまとめがありません。'}
+          </p>
         )
       }
     </div>
     <div class="mt-12">
       <Link href={tagUrl} isButton isExternal animateOnHover animationType="nudge">
-        Posfieでもっと見る
+        {isEnglish ? 'View more on Posfie' : 'Posfieでもっと見る'}
         <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
       </Link>
     </div>

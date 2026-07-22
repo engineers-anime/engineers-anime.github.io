@@ -50,6 +50,8 @@ const {
   type = 'website',
   useTitleTemplate = true,
 } = Astro.props
+const isEnglish = Astro.url.pathname.startsWith('/en')
+const lang = isEnglish ? 'en' : 'ja'
 
 // For social sharing, we need the full absolute URL
 // If image is an ImageMetadata object, use its src, otherwise treat as string path
@@ -57,7 +59,7 @@ const imagePath = image ? (typeof image === 'string' ? image : image.src) : '/so
 const imageUrl = new URL(imagePath, Astro.site).href
 ---
 
-<html lang="ja" dir="ltr">
+<html lang={lang} dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -65,6 +67,8 @@ const imageUrl = new URL(imagePath, Astro.site).href
 
     <!-- favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" hreflang="ja" href={new URL('/', Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL('/en/', Astro.site)} />
 
     <!-- theme colors from config -->
     <style
