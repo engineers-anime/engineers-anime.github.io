@@ -59,7 +59,8 @@ const bookCount = books.length.toString()
   <Hero />
   <section class="my-64">
     <div class="container">
-      <Heading level="h2" class="mb-8">活動内容</Heading>
+      <Heading level="h2" class="mb-6">活動内容</Heading>
+      <p class="mb-8 text-xl">アニメから得た学びを共有するため、交流・発表・ものづくりに取り組んでいます。</p>
       <div class="grid grid-cols-1 gap-12 md:grid-cols-3">
         <Feature icon="lucide:users" title="コミュニティー活動">
           「アニメから得た学びをエンジニア同士で語り合う」をコンセプトに、エンジニアのモチベーション維持やキャリア形成に繋がる交流の場を運営しています。
@@ -160,7 +161,8 @@ const bookCount = books.length.toString()
   </section>
   <section class="mt-64 mb-32">
     <div class="container">
-      <Heading level="h2" class="mb-16">数字で見るエンジニアニメ</Heading>
+      <Heading level="h2" class="mb-6">数字で見るエンジニアニメ</Heading>
+      <p class="mb-16 text-xl">コミュニティのこれまでの活動を数字でご紹介します。</p>
       <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
         <Counter count={memberCount} title="Members" sub="コミュニティ人数" />
         <Counter count={eventCount} title="Events" sub="累計イベント開催数" />
