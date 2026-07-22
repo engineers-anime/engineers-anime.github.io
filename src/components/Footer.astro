@@ -2,6 +2,7 @@
 import CallToAction from './CallToAction.astro'
 import Logo from './Logo.astro'
 import { Heading, Link } from 'accessible-astro-components'
+import { getTranslations } from '../i18n'
 
 /**
  * Footer Component
@@ -9,31 +10,23 @@ import { Heading, Link } from 'accessible-astro-components'
  * @description A component that displays the footer of the website
  */
 const currentYear = new Date().getFullYear()
-const isEnglish = Astro.url.pathname.startsWith('/en')
+const t = getTranslations(Astro.url.pathname)
 ---
 
 <footer>
-  <CallToAction
-    title={isEnglish ? 'Join our community' : undefined}
-    linkText={isEnglish ? 'Follow on X' : undefined}
-    secondaryLinkText={isEnglish ? 'Join Discord' : undefined}
-  />
+  <CallToAction title={t.footer.ctaTitle} linkText={t.footer.followX} secondaryLinkText={t.footer.joinDiscord} />
   <section class="py-20">
     <Heading level="h2" class="sr-only">Footer</Heading>
     <div class="container grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
       <div class="flex flex-col gap-4">
         <Logo loading="lazy" isLink={false} />
         <p class="leading-[1.75]">
-          {
-            isEnglish
-              ? 'EngineerAnime is a community where people in the IT industry share lessons they have learned from anime and connect with one another.'
-              : 'エンジニアニメは、アニメと技術を愛するすべてのエンジニアのためのコミュニティです。'
-          }<br />
-          {isEnglish ? 'Organizer' : '主催者'}: <Link isExternal href="https://x.com/uutan1108">うーたん</Link>
+          {t.footer.description}<br />
+          {t.footer.organizer}: <Link isExternal href="https://x.com/uutan1108">うーたん</Link>
         </p>
       </div>
       <div class="flex flex-col gap-4">
-        <Heading level="h3" size="h6">{isEnglish ? 'Community' : 'コミュニティ'}</Heading>
+        <Heading level="h3" size="h6">{t.footer.community}</Heading>
         <ul class="flex flex-col gap-2">
           <li>
             <Link isExternal href="https://engineers-anime.connpass.com/">connpass</Link>
@@ -53,13 +46,13 @@ const isEnglish = Astro.url.pathname.startsWith('/en')
         </ul>
       </div>
       <div class="flex flex-col gap-4">
-        <Heading level="h3" size="h6">{isEnglish ? 'Illustration' : 'イラスト'}</Heading>
+        <Heading level="h3" size="h6">{t.footer.illustration}</Heading>
         <ul class="flex flex-col gap-2">
           <li>
             <Link isExternal href="https://x.com/DDDD__akagi">赤城ナツイチ</Link>
           </li>
         </ul>
-        <Heading level="h3" size="h6">{isEnglish ? 'Logo' : 'ロゴ'}</Heading>
+        <Heading level="h3" size="h6">{t.footer.logo}</Heading>
         <ul class="flex flex-col gap-2">
           <li>
             <Link isExternal href="https://x.com/mottox2">もっと</Link>
@@ -71,7 +64,7 @@ const isEnglish = Astro.url.pathname.startsWith('/en')
   <section class="py-8">
     <div class="container flex flex-col gap-4 md:flex-row md:justify-between">
       <p>
-        &copy; {currentYear} - {isEnglish ? 'EngineerAnime' : 'エンジニアニメ'}.
+        &copy; {currentYear} - {t.siteName}.
       </p>
     </div>
   </section>

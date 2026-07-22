@@ -3,6 +3,7 @@ import { Card, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import Parser from 'rss-parser'
 import { magazineUrls } from '../data/note-magazines'
+import { getTranslations } from '../i18n'
 
 /**
  * RecentNotes Component
@@ -60,12 +61,9 @@ const {
   moreLabel = 'noteで記事をもっと見る',
   emptyMessage = '現在、表示できるnote記事がありません。',
 } = Astro.props
-const isEnglish = Astro.url.pathname.startsWith('/en')
-const displayMoreLabel = isEnglish && moreLabel === 'noteで記事をもっと見る' ? 'View more on note' : moreLabel
-const displayEmptyMessage =
-  isEnglish && emptyMessage === '現在、表示できるnote記事がありません。'
-    ? 'No note articles are available right now.'
-    : emptyMessage
+const t = getTranslations(Astro.url.pathname)
+const displayMoreLabel = moreLabel === 'noteで記事をもっと見る' ? t.notes.more : moreLabel
+const displayEmptyMessage = emptyMessage === '現在、表示できるnote記事がありません。' ? t.notes.empty : emptyMessage
 
 const parser = new Parser({
   customFields: {
@@ -146,14 +144,13 @@ try {
                     <Icon name="lucide:user" size="1.2rem" class="text-primary-500" />
                   )}
                   <span>
-                    <strong>{isEnglish ? 'Author:' : '投稿者:'}</strong> {post.creatorName || 'エンジニアニメ'}
+                    <strong>{t.notes.author}</strong> {post.creatorName || t.siteName}
                   </span>
                 </div>
                 <div class="flex items-center gap-2">
                   <Icon name="lucide:clock" size="1.2rem" class="text-primary-500" />
                   <span>
-                    <strong>{isEnglish ? 'Published:' : '公開日:'}</strong>{' '}
-                    {new Date(post.pubDate).toLocaleDateString(isEnglish ? 'en-US' : 'ja-JP')}
+                    <strong>{t.notes.published}</strong> {new Date(post.pubDate).toLocaleDateString(t.locale)}
                   </span>
                 </div>
               </div>

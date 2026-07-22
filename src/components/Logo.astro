@@ -2,6 +2,7 @@
 import { Link } from 'accessible-astro-components'
 import { Image } from 'astro:assets'
 import themeConfig from '@theme-config'
+import { getTranslations } from '../i18n'
 
 /**
  * Logo Component
@@ -22,23 +23,23 @@ interface Props {
 }
 
 const { loading = 'eager', isLink = true }: Props = Astro.props
-const isEnglish = Astro.url.pathname.startsWith('/en')
+const t = getTranslations(Astro.url.pathname)
 ---
 
 {
   isLink ? (
-    <Link href={isEnglish ? '/en/' : '/'} class="flex items-center gap-2">
+    <Link href={t.navigation.languageCode === 'ja' ? '/en/' : '/'} class="flex items-center gap-2">
       {themeConfig.logo && (
         <Image src={themeConfig.logo} alt="" aria-hidden="true" height="32" inferSize loading={loading} />
       )}
-      <span class="text-gradient text-sm font-bold sm:text-lg">{isEnglish ? 'EngineerAnime' : themeConfig.name}</span>
+      <span class="text-gradient text-sm font-bold sm:text-lg">{t.siteName}</span>
     </Link>
   ) : (
     <div class="flex items-center gap-2">
       {themeConfig.logo && (
         <Image src={themeConfig.logo} alt="" aria-hidden="true" height="32" inferSize loading={loading} />
       )}
-      <span class="text-gradient text-sm font-bold sm:text-lg">{isEnglish ? 'EngineerAnime' : themeConfig.name}</span>
+      <span class="text-gradient text-sm font-bold sm:text-lg">{t.siteName}</span>
     </div>
   )
 }

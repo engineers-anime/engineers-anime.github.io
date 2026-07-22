@@ -14,6 +14,7 @@ import { Icon } from 'astro-icon/components'
 import { parse } from 'node-html-parser'
 import { books } from '../data/booth-books'
 import eventLogo from '../assets/img/logo-minified.svg'
+import { getTranslations } from '../i18n'
 
 // Calculate activity months since 2024/05/07
 const startDate = new Date('2024-05-07')
@@ -53,104 +54,7 @@ try {
 }
 
 const bookCount = books.length.toString()
-const isEnglish = Astro.url.pathname.startsWith('/en')
-
-const copy = isEnglish
-  ? {
-      pageTitle: 'EngineerAnime - Where Anime Inspires Learning and Brings Engineers Together',
-      activities: 'What We Do',
-      activitiesIntro:
-        'We create opportunities for people in the IT industry to learn from anime and connect beyond their own fields.',
-      community: 'Community',
-      communityText:
-        'Anime is the starting point. People share lessons they have learned from anime, then connect through conversations about work, careers, technology, and life.',
-      events: 'Meetups & Events',
-      eventsText:
-        'Participants listen to talks about lessons learned from anime, communicate with one another, and build new connections across different engineering backgrounds.',
-      bookCreation: 'Anthology Books',
-      bookCreationText:
-        'Community members write anthology books about lessons they have learned from anime and share them at Comic Market and technical book events.',
-      eventsDetail:
-        'At our meetups, participants share how anime has changed their perspectives or helped them stay motivated. Anime inspires learning and brings engineers together.',
-      booksDetail:
-        'Not everyone can travel to our meetups, so we also publish anthology books. Writing for an anthology is another way to participate in the community.',
-      officialNotes: 'Official EngineerAnime Articles',
-      officialNotesDescription:
-        'News and official articles from the EngineerAnime organizers. The linked articles are available in Japanese.',
-      communityBlogs: 'Community Member Reflections',
-      communityBlogsDescription:
-        'Reflections from people who joined EngineerAnime events and activities. The linked articles are available in Japanese.',
-      moreCommunityNotes: 'View community reflections on note',
-      noCommunityNotes: 'No community reflections are available right now.',
-      faq: 'Frequently Asked Questions',
-      faqIntro: 'Common questions about joining the community and taking part in our activities.',
-      followX: 'Follow on X',
-      joinDiscord: 'Join Discord',
-      faqBeginner: 'Can beginners join?',
-      faqBeginnerAnswer:
-        'Absolutely. Everyone is welcome, regardless of experience, as long as you enjoy anime or are interested in engineering.',
-      faqLocation: 'Where do you usually meet?',
-      faqLocationAnswer:
-        'We regularly hold in-person meetups in Tokyo, often at convenient locations near the Yamanote Line.',
-      faqStack: 'What technical backgrounds do members have?',
-      faqStackAnswer:
-        'Our members include web, mobile, and AI engineers, designers, and people from many other technical backgrounds.',
-      faqCost: 'Does it cost anything to join?',
-      faqCostAnswer:
-        'Joining the community is free. Some events or social gatherings may charge a fee to cover their actual costs.',
-      numbers: 'EngineerAnime by the Numbers',
-      numbersIntro: 'A snapshot of what our community has accomplished so far.',
-      members: 'Community members',
-      eventCount: 'Events held',
-      books: 'Technical books published',
-      months: 'Months active',
-    }
-  : {
-      pageTitle: 'エンジニアニメ - アニメから得た学びをエンジニアの知見へ',
-      activities: '活動内容',
-      activitiesIntro: 'アニメから得た学びを共有するため、交流・発表・ものづくりに取り組んでいます。',
-      community: 'コミュニティー活動',
-      communityText:
-        '「アニメから得た学びをエンジニア同士で語り合う」をコンセプトに、エンジニアのモチベーション維持やキャリア形成に繋がる交流の場を運営しています。',
-      events: '勉強会・交流会',
-      eventsText:
-        '勉強会「アニメから得た学びを発表会」をはじめ、アニメの聖地や都内で平日夜に勉強会など、多様な場所や規模で開催しています。',
-      bookCreation: '技術同人誌の制作',
-      bookCreationText:
-        '同人誌即売会などのイベントに向けて、アニメと技術が交差する独自の知見を詰め込んだ技術同人誌を、有志メンバーでわいわい制作・頒布しています。',
-      eventsDetail:
-        '「アニメから得た学びを発表会」では、エンジニア独自の視点でアニメを深掘り。好きな作品を技術的な切り口で見つめ直すことで、一人では得られない新しい気づきを共有し合っています。',
-      booksDetail:
-        '有志が集まり、アニメと技術を掛け合わせた技術同人誌を制作しています。コミュニティに集まった多様なパッションを一冊の本という形にして、同人誌即売会などで頒布しています。',
-      officialNotes: 'エンジニアニメ公式note記事',
-      officialNotesDescription: 'エンジニアニメ運営からのお知らせや、イベント・活動に関する公式記事をご紹介します。',
-      communityBlogs: 'コミュニティメンバーの感想ブログ',
-      communityBlogsDescription: 'エンジニアニメのイベントや活動に参加したコミュニティメンバーの感想をご紹介します。',
-      moreCommunityNotes: 'みんなの感想をnoteで見る',
-      noCommunityNotes: '現在、表示できる感想ブログがありません。',
-      faq: 'よくある質問',
-      faqIntro: 'コミュニティへの参加や活動に関するよくある質問をまとめています。',
-      followX: 'Xをフォロー',
-      joinDiscord: 'Discordに参加',
-      faqBeginner: '初心者でも参加できますか？',
-      faqBeginnerAnswer:
-        'もちろんです！アニメが好き、またはエンジニアリングに興味がある方なら、経験を問わず大歓迎です。',
-      faqLocation: '主な活動場所はどこですか？',
-      faqLocationAnswer:
-        '定期的に都内でのオフライン交流会を開催しています。山手線沿線のアクセスしやすい場所が多いです。',
-      faqStack: 'どのような技術スタックの人が多いですか？',
-      faqStackAnswer:
-        'Webエンジニア、モバイルエンジニア、AIエンジニア、デザイナーなど、多種多様な方々が参加しています。',
-      faqCost: '参加費用はかかりますか？',
-      faqCostAnswer:
-        'コミュニティへの基本的な参加は無料です。特定のイベントや懇親会などの際には実費をいただく場合があります。',
-      numbers: '数字で見るエンジニアニメ',
-      numbersIntro: 'コミュニティのこれまでの活動を数字でご紹介します。',
-      members: 'コミュニティ人数',
-      eventCount: '累計イベント開催数',
-      books: '発行した同人誌の冊数',
-      months: '活動期間',
-    }
+const copy = getTranslations(Astro.url.pathname).home
 ---
 
 <DefaultLayout title={copy.pageTitle} useTitleTemplate={false}>

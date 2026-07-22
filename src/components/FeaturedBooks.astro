@@ -3,6 +3,7 @@ import { Card, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { parse } from 'node-html-parser'
 import { books } from '../data/booth-books'
+import { getTranslations } from '../i18n'
 
 /**
  * FeaturedBooks Component
@@ -22,8 +23,8 @@ interface Props {
 }
 
 const { class: className, title = '制作した技術同人誌' } = Astro.props
-const isEnglish = Astro.url.pathname.startsWith('/en')
-const sectionTitle = isEnglish && title === '制作した技術同人誌' ? 'Published Anthology Books' : title
+const t = getTranslations(Astro.url.pathname)
+const sectionTitle = title === '制作した技術同人誌' ? t.books.title : title
 
 const bookDetails = await Promise.all(
   books.map(async (url) => {
@@ -60,13 +61,7 @@ const bookDetails = await Promise.all(
 <section id="published-books" class:list={[className, 'my-64']}>
   <div class="container">
     <Heading level="h2" class="mb-6">{sectionTitle}</Heading>
-    <p class="mb-8 text-xl">
-      {
-        isEnglish
-          ? 'Explore anthology books written by community members about lessons they have learned from anime. Book descriptions and purchase pages are available in Japanese.'
-          : 'コミュニティメンバーの知見と情熱をまとめた、エンジニアニメの技術同人誌をご紹介します。'
-      }
-    </p>
+    <p class="mb-8 text-xl">{t.books.description}</p>
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
         bookDetails.map((book) => (
@@ -78,7 +73,7 @@ const bookDetails = await Promise.all(
     </div>
     <div class="mt-12">
       <Link href="https://engineers-anime.booth.pm/" isButton isExternal animateOnHover animationType="nudge">
-        {isEnglish ? 'View books on BOOTH' : 'BOOTHで本を確認する'}
+        {t.books.more}
         <Icon aria-hidden="true" name="lucide:shopping-cart" size="1.5rem" />
       </Link>
     </div>

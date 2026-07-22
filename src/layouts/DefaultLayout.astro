@@ -8,6 +8,7 @@ import Footer from '@components/Footer.astro'
 import AnimatedBackground from '@components/AnimatedBackground.astro'
 import { ClientRouter } from 'astro:transitions'
 import type { ImageMetadata } from 'astro'
+import { getLocale } from '../i18n'
 
 interface Props {
   /**
@@ -50,8 +51,7 @@ const {
   type = 'website',
   useTitleTemplate = true,
 } = Astro.props
-const isEnglish = Astro.url.pathname.startsWith('/en')
-const lang = isEnglish ? 'en' : 'ja'
+const lang = getLocale(Astro.url.pathname)
 
 // For social sharing, we need the full absolute URL
 // If image is an ImageMetadata object, use its src, otherwise treat as string path
@@ -64,6 +64,20 @@ const imageUrl = new URL(imagePath, Astro.site).href
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <script is:inline>
+      if (window.location.pathname === '/') {
+        let preferredLanguage = null
+        try {
+          preferredLanguage = localStorage.getItem('preferred-language')
+        } catch {}
+        const browserLanguage = navigator.languages?.[0] || navigator.language
+
+        if (preferredLanguage === 'en' || (!preferredLanguage && !browserLanguage.toLowerCase().startsWith('ja'))) {
+          window.location.replace('/en/')
+        }
+      }
+    </script>
 
     <!-- favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

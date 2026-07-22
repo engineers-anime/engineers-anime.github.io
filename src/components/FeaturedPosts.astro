@@ -3,6 +3,7 @@ import { Card, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import Parser from 'rss-parser'
 import { parse } from 'node-html-parser'
+import { getTranslations } from '../i18n'
 
 /**
  * FeaturedPosts Component
@@ -39,8 +40,8 @@ interface Post {
 }
 
 const { class: className, limit = 6, title = '近日開催の勉強会' } = Astro.props
-const isEnglish = Astro.url.pathname.startsWith('/en')
-const sectionTitle = isEnglish && title === '近日開催の勉強会' ? 'Upcoming Events' : title
+const t = getTranslations(Astro.url.pathname)
+const sectionTitle = title === '近日開催の勉強会' ? t.upcomingEvents.title : title
 
 // Fetch study groups from Connpass RSS
 const parser = new Parser()
@@ -111,13 +112,7 @@ try {
 <section id="upcoming-events" class:list={[className, 'my-64']}>
   <div class="container">
     <Heading level="h2" class="mb-6">{sectionTitle}</Heading>
-    <p class="mb-8 text-xl">
-      {
-        isEnglish
-          ? 'Find upcoming EngineerAnime meetups where anime inspires learning and brings engineers together. Event details are available in Japanese.'
-          : 'これから開催するエンジニアニメの勉強会・交流会をご案内します。'
-      }
-    </p>
+    <p class="mb-8 text-xl">{t.upcomingEvents.description}</p>
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
         featuredPosts.length > 0 ? (
@@ -134,7 +129,7 @@ try {
                     <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75" />
                     <span class="relative inline-flex h-2 w-2 rounded-full bg-orange-500" />
                   </span>
-                  {isEnglish ? 'Registration open' : '参加者募集中'}
+                  {t.upcomingEvents.registrationOpen}
                 </span>
               </div>
               <div class="mb-4 flex flex-col gap-2 text-sm">
@@ -142,7 +137,7 @@ try {
                   <div class="flex items-start gap-2">
                     <Icon name="lucide:calendar-days" size="1.2rem" class="text-primary-500 mt-0.5" />
                     <span>
-                      <strong>{isEnglish ? 'Date:' : '日時:'}</strong> {post.eventDate}
+                      <strong>{t.upcomingEvents.date}</strong> {post.eventDate}
                     </span>
                   </div>
                 )}
@@ -150,7 +145,7 @@ try {
                   <div class="flex items-start gap-2">
                     <Icon name="lucide:map-pin" size="1.2rem" class="text-primary-500 mt-0.5" />
                     <span>
-                      <strong>{isEnglish ? 'Location:' : '場所:'}</strong> {post.eventLocation}
+                      <strong>{t.upcomingEvents.location}</strong> {post.eventLocation}
                     </span>
                   </div>
                 )}
@@ -159,17 +154,13 @@ try {
             </Card>
           ))
         ) : (
-          <p class="text-xl">
-            {isEnglish
-              ? 'There are no upcoming events at the moment. Follow us on X for announcements.'
-              : '現在、近日開催予定の勉強会はありません。Xでの告知をお待ちください！'}
-          </p>
+          <p class="text-xl">{t.upcomingEvents.empty}</p>
         )
       }
     </div>
     <div class="mt-12">
       <Link href="https://engineers-anime.connpass.com/" isButton isExternal animateOnHover animationType="nudge">
-        {isEnglish ? 'View past events on connpass' : '過去の勉強会を見る（connpass）'}
+        {t.upcomingEvents.more}
         <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
       </Link>
     </div>

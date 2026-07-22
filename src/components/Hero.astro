@@ -3,6 +3,7 @@ import { Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import type { ImageMetadata } from 'astro'
+import { getTranslations } from '../i18n'
 
 /**
  * Hero Component
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
-const isEnglish = Astro.url.pathname.startsWith('/en')
+const t = getTranslations(Astro.url.pathname)
 
 // Import images from src/assets/img/top_slide
 const imageFiles = import.meta.glob<{ default: ImageMetadata }>('/src/assets/img/top_slide/*.{png,jpg,jpeg,webp}')
@@ -37,7 +38,7 @@ const images = await Promise.all(sortedKeys.map((key) => imageFiles[key]()))
         <h1
           class="overflow-visible py-4 text-center text-4xl leading-normal whitespace-nowrap md:text-left md:text-6xl lg:text-7xl"
         >
-          <slot><span class="text-gradient">{isEnglish ? 'EngineerAnime' : 'エンジニアニメ'}</span></slot>
+          <slot><span class="text-gradient">{t.siteName}</span></slot>
         </h1>
         <div class="image-container relative block w-full overflow-hidden rounded-xl lg:hidden">
           {
@@ -75,11 +76,11 @@ const images = await Promise.all(sortedKeys.map((key) => imageFiles[key]()))
             animationType="boop"
           >
             <Icon aria-hidden="true" name="simple-icons:x" size="1.5rem" />
-            {isEnglish ? 'Follow on X' : 'Xをフォロー'}
+            {t.hero.followX}
           </Link>
           <Link href="#upcoming-events" isButton type="secondary" animateOnHover animationType="boop">
             <Icon aria-hidden="true" name="lucide:calendar" size="1.5rem" />
-            {isEnglish ? 'View upcoming events' : '勉強会を確認する'}
+            {t.hero.viewEvents}
           </Link>
         </div>
       </div>
