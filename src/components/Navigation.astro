@@ -315,9 +315,13 @@ import Logo from './Logo.astro'
     .mobile-menu {
       flex-basis: 100%;
       margin-block-start: var(--space-m);
+      box-shadow: var(--elevation-3);
       border: 1px solid var(--border-color-subtle);
       border-radius: var(--radius-l);
+      background-color: color-mix(in srgb, var(--background-color) 76%, transparent);
       padding: var(--space-m);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
 
       > ul {
         flex-direction: column;
