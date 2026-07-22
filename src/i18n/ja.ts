@@ -1,6 +1,13 @@
 export default {
   locale: 'ja-JP',
   siteName: 'エンジニアニメ',
+  seo: {
+    description:
+      'アニメから得た学びをエンジニア同士で語り合う、モチベーションと技術が交差するコミュニティ。定期的な勉強会や技術同人誌の制作を通じて、アニメの情熱をエンジニアの成長へと繋げます。',
+    image: '/social-preview-image.png',
+    ogLocale: 'ja_JP',
+    alternateLocale: 'en_US',
+  },
   navigation: {
     desktopLabel: 'メインナビゲーション（デスクトップ）',
     mobileLabel: 'メインナビゲーション（モバイル）',

@@ -8,7 +8,7 @@ import Footer from '@components/Footer.astro'
 import AnimatedBackground from '@components/AnimatedBackground.astro'
 import { ClientRouter } from 'astro:transitions'
 import type { ImageMetadata } from 'astro'
-import { getLocale } from '../i18n'
+import { getLocale, getTranslations } from '../i18n'
 
 interface Props {
   /**
@@ -42,16 +42,18 @@ interface Props {
   useTitleTemplate?: boolean
 }
 
+const lang = getLocale(Astro.url.pathname)
+const t = getTranslations(Astro.url.pathname)
+
 const {
   title = themeConfig.seo.title,
-  description = themeConfig.seo.description ?? '',
+  description = t.seo.description,
   url = Astro.url.href,
-  image = themeConfig.seo.image ?? null,
-  author = themeConfig.seo.author ?? '',
+  image = t.seo.image,
+  author = t.siteName,
   type = 'website',
   useTitleTemplate = true,
 } = Astro.props
-const lang = getLocale(Astro.url.pathname)
 
 // For social sharing, we need the full absolute URL
 // If image is an ImageMetadata object, use its src, otherwise treat as string path
@@ -121,8 +123,8 @@ const imageUrl = new URL(imagePath, Astro.site).href
         },
         optional: {
           description: description,
-          siteName: themeConfig.seo.siteName,
-          locale: themeConfig.seo.locale,
+          siteName: t.siteName,
+          locale: t.seo.ogLocale,
         },
       }}
       twitter={{
@@ -138,6 +140,10 @@ const imageUrl = new URL(imagePath, Astro.site).href
           {
             name: 'author',
             content: author,
+          },
+          {
+            property: 'og:locale:alternate',
+            content: t.seo.alternateLocale,
           },
         ],
       }}

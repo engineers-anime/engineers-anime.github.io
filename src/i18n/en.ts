@@ -1,6 +1,13 @@
 export default {
   locale: 'en-US',
   siteName: 'EngineerAnime',
+  seo: {
+    description:
+      'EngineerAnime is a cross-disciplinary community where people in the IT industry share lessons learned from anime, connect with one another, and discover new perspectives.',
+    image: '/social-preview-image-en.png',
+    ogLocale: 'en_US',
+    alternateLocale: 'ja_JP',
+  },
   navigation: {
     desktopLabel: 'Main navigation (desktop)',
     mobileLabel: 'Main navigation (mobile)',
