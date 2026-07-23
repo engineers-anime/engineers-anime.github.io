@@ -30,7 +30,14 @@ import { HighContrast, ReducedMotion, SkipLink } from 'accessible-astro-componen
     top: 0;
     left: 0;
     z-index: 1000;
-    background-color: transparent;
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--background-color) 72%, transparent) 0%,
+      color-mix(in srgb, var(--background-color) 54%, transparent) 72%,
+      transparent 100%
+    );
     width: 100%;
 
     li.type-icon {
