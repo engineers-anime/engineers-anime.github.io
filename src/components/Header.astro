@@ -56,6 +56,15 @@ import { HighContrast, ReducedMotion, SkipLink } from 'accessible-astro-componen
     }
 
     @include breakpoint('nav') {
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      background: linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--background-color) 82%, transparent) 0%,
+        color-mix(in srgb, var(--background-color) 68%, transparent) 72%,
+        transparent 100%
+      );
+
       li.desktop-launcher {
         display: block;
       }
