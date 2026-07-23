@@ -213,21 +213,33 @@ const copy = getTranslations(Astro.url.pathname).home
   :global(.section-link) {
     display: inline-block;
     vertical-align: 0.12em;
-    opacity: 0.45;
+    transform: translateX(-0.1em);
+    opacity: 0;
     transition:
       opacity 150ms ease,
       transform 150ms ease;
-    margin-inline-start: 0;
+    margin-inline-start: 0.15em;
+    pointer-events: none;
     color: var(--color-primary-500);
     font-size: 0.65em;
     text-decoration: none;
   }
 
-  :global(.section-link:hover),
+  :global(h2:hover .section-link),
+  :global(h2:focus-within .section-link),
   :global(.section-link:focus-visible) {
-    transform: translateY(-1px);
+    transform: translateX(0);
     opacity: 1;
+    pointer-events: auto;
     text-decoration: none;
+  }
+
+  @media (hover: none) {
+    :global(.section-link) {
+      transform: translateX(0);
+      opacity: 0.45;
+      pointer-events: auto;
+    }
   }
 
   .discord-button-wrapper {
