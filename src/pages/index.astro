@@ -60,7 +60,7 @@ const copy = getTranslations(Astro.url.pathname).home
 
 <DefaultLayout title={copy.pageTitle} useTitleTemplate={false}>
   <Hero />
-  <section class="my-64">
+  <section id="activities" class="my-64">
     <div class="container">
       <Heading level="h2" class="mb-6">{copy.activities}</Heading>
       <p class="mb-8 text-xl">{copy.activitiesIntro}</p>
@@ -71,7 +71,7 @@ const copy = getTranslations(Astro.url.pathname).home
       </div>
     </div>
   </section>
-  <ContentMedia>
+  <ContentMedia sectionId="meetups">
     <Slideshow slot="media" folder="slides/study" maxWidth="600px" hasBorder={true} />
     <div class="mb-4 flex items-center gap-4">
       <img src={eventLogo.src} alt="" aria-hidden="true" class="h-12 w-auto" />
@@ -81,7 +81,7 @@ const copy = getTranslations(Astro.url.pathname).home
       {copy.eventsDetail}
     </p>
   </ContentMedia>
-  <ContentMedia reverseImg={true}>
+  <ContentMedia sectionId="book-creation" reverseImg={true}>
     <Slideshow slot="media" folder="slides/book" aspectRatio="722/1024" maxWidth="400px" hasBorder={true} />
     <Heading level="h2">{copy.bookCreation}</Heading>
     <p class="text-2xl">{copy.booksDetail}</p>
@@ -100,7 +100,7 @@ const copy = getTranslations(Astro.url.pathname).home
   <RecentPosfie />
   <FeaturedBooks />
   <CharacterGoods />
-  <section class="my-64">
+  <section id="faq" class="my-64">
     <div class="container grid grid-cols-1 gap-12 md:grid-cols-2">
       <div class="flex flex-col items-start gap-4">
         <Heading level="h2">{copy.faq}</Heading>
@@ -150,7 +150,7 @@ const copy = getTranslations(Astro.url.pathname).home
       </div>
     </div>
   </section>
-  <section class="mt-64 mb-32">
+  <section id="numbers" class="mt-64 mb-32">
     <div class="container">
       <Heading level="h2" class="mb-6">{copy.numbers}</Heading>
       <p class="mb-16 text-xl">{copy.numbersIntro}</p>
@@ -164,7 +164,72 @@ const copy = getTranslations(Astro.url.pathname).home
   </section>
 </DefaultLayout>
 
+<script>
+  const addSectionLinks = () => {
+    const isEnglish = document.documentElement.lang.startsWith('en')
+    const linkLabel = isEnglish ? 'Link to this section' : 'このセクションへのリンク'
+
+    document.querySelectorAll<HTMLElement>('section[id]').forEach((section) => {
+      const heading = section.querySelector<HTMLHeadingElement>('h2')
+      if (!heading || heading.querySelector('.section-link')) return
+
+      const link = document.createElement('a')
+      link.href = `#${section.id}`
+      link.className = 'section-link'
+      link.setAttribute('aria-label', `${heading.textContent?.trim()}: ${linkLabel}`)
+      link.title = linkLabel
+      link.textContent = '#'
+      heading.append(link)
+    })
+  }
+
+  const scrollToCurrentSection = () => {
+    if (!window.location.hash) return
+
+    const sectionId = decodeURIComponent(window.location.hash.slice(1))
+    const section = document.getElementById(sectionId)
+    if (!section) return
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => section.scrollIntoView())
+    })
+  }
+
+  const initializeSectionLinks = () => {
+    addSectionLinks()
+    scrollToCurrentSection()
+  }
+
+  document.addEventListener('astro:page-load', initializeSectionLinks)
+  window.addEventListener('load', scrollToCurrentSection)
+  initializeSectionLinks()
+</script>
+
 <style>
+  :global(section[id]) {
+    scroll-margin-top: 7rem;
+  }
+
+  :global(.section-link) {
+    display: inline-block;
+    vertical-align: 0.12em;
+    opacity: 0.45;
+    transition:
+      opacity 150ms ease,
+      transform 150ms ease;
+    margin-inline-start: 0;
+    color: var(--color-primary-500);
+    font-size: 0.65em;
+    text-decoration: none;
+  }
+
+  :global(.section-link:hover),
+  :global(.section-link:focus-visible) {
+    transform: translateY(-1px);
+    opacity: 1;
+    text-decoration: none;
+  }
+
   .discord-button-wrapper {
     :global(.button.secondary) {
       border-color: #5865f2 !important;
