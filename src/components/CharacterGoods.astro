@@ -1,0 +1,101 @@
+---
+import { Card, Heading, Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+import { getTranslations } from '../i18n'
+
+interface Props {
+  class?: string
+  limit?: number
+}
+
+interface SuzuriProduct {
+  id: number
+  title: string
+  published: boolean
+  updatedAt: string
+  sampleImageUrl: string
+  sampleUrl: string
+  priceWithTax: number
+  discountedPriceWithTax?: number
+  item?: {
+    humanizeName?: string
+  }
+}
+
+interface SuzuriResponse {
+  products?: SuzuriProduct[]
+}
+
+const { class: className, limit = 6 } = Astro.props
+const t = getTranslations(Astro.url.pathname)
+const apiKey = import.meta.env.SUZURI_API_KEY
+const apiUrl = new URL('https://suzuri.jp/api/v1/products')
+apiUrl.searchParams.set('userName', 'srkr')
+apiUrl.searchParams.set('limit', '50')
+
+let products: SuzuriProduct[] = []
+
+if (apiKey) {
+  try {
+    const response = await fetch(apiUrl, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        Accept: 'application/json',
+      },
+    })
+
+    if (!response.ok) throw new Error(`Status code ${response.status}`)
+
+    const data = (await response.json()) as SuzuriResponse
+    products = (data.products || [])
+      .filter((product) => product.published)
+      .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+      .slice(0, limit)
+  } catch (error) {
+    console.error('Error fetching SUZURI products:', error)
+  }
+} else {
+  console.warn('SUZURI_API_KEY is not configured. Skipping SUZURI product fetch.')
+}
+---
+
+<section id="character-goods" class:list={[className, 'my-64']}>
+  <div class="container">
+    <Heading level="h2" class="mb-6">{t.goods.title}</Heading>
+    <p class="mb-8 text-xl">{t.goods.description}</p>
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+      {
+        products.length > 0 ? (
+          products.map((product) => (
+            <Card img={product.sampleImageUrl} url={product.sampleUrl} headingLevel="h2" title={product.title}>
+              <div class="flex flex-col gap-2 text-sm">
+                {product.item?.humanizeName && (
+                  <div class="flex items-center gap-2">
+                    <Icon name="lucide:shirt" size="1.2rem" class="text-primary-500" />
+                    <span>{product.item.humanizeName}</span>
+                  </div>
+                )}
+                <div class="flex items-center gap-2">
+                  <Icon name="lucide:tag" size="1.2rem" class="text-primary-500" />
+                  <span>
+                    <strong>{t.goods.price}</strong>{' '}
+                    {(product.discountedPriceWithTax || product.priceWithTax).toLocaleString(t.locale)}
+                    {t.goods.yen}
+                  </span>
+                </div>
+              </div>
+            </Card>
+          ))
+        ) : (
+          <p class="text-xl">{t.goods.empty}</p>
+        )
+      }
+    </div>
+    <div class="mt-12">
+      <Link href="https://suzuri.jp/srkr" isButton isExternal animateOnHover animationType="nudge">
+        {t.goods.more}
+        <Icon aria-hidden="true" name="lucide:shopping-cart" size="1.5rem" />
+      </Link>
+    </div>
+  </div>
+</section>

@@ -9,6 +9,7 @@ import FeaturedPosts from '@components/FeaturedPosts.astro'
 import RecentNotes from '@components/RecentNotes.astro'
 import RecentPosfie from '@components/RecentPosfie.astro'
 import FeaturedBooks from '@components/FeaturedBooks.astro'
+import CharacterGoods from '@components/CharacterGoods.astro'
 import { Accordion, AccordionItem, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { parse } from 'node-html-parser'
@@ -98,6 +99,7 @@ const copy = getTranslations(Astro.url.pathname).home
   />
   <RecentPosfie />
   <FeaturedBooks />
+  <CharacterGoods />
   <section class="my-64">
     <div class="container grid grid-cols-1 gap-12 md:grid-cols-2">
       <div class="flex flex-col items-start gap-4">

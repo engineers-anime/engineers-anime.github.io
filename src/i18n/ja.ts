@@ -92,7 +92,15 @@ export default {
   books: {
     title: '制作した技術同人誌',
     description: 'コミュニティメンバーの知見と情熱をまとめた、エンジニアニメの技術同人誌をご紹介します。',
-    more: 'BOOTHで本を確認する',
+    more: 'BOOTHでもっと本を見る',
+  },
+  goods: {
+    title: 'キャラクターグッズ',
+    description: 'エンジニアニメのキャラクターを使った、SUZURIで販売中のオリジナルグッズをご紹介します。',
+    more: 'SUZURIでもっとグッズを見る',
+    price: '価格:',
+    yen: '円',
+    empty: '現在、表示できるキャラクターグッズがありません。',
   },
   footer: {
     ctaTitle: 'コミュニティに参加しませんか？',

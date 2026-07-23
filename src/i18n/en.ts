@@ -101,7 +101,16 @@ export default {
     title: 'Published Anthology Books',
     description:
       'Explore anthology books written by community members about lessons they have learned from anime. Book descriptions and purchase pages are available in Japanese.',
-    more: 'View books on BOOTH',
+    more: 'View more books on BOOTH',
+  },
+  goods: {
+    title: 'Character Goods',
+    description:
+      'Explore original EngineerAnime character goods available on SUZURI. Product details and purchases are available in Japanese.',
+    more: 'View more goods on SUZURI',
+    price: 'Price:',
+    yen: ' JPY',
+    empty: 'No character goods are available right now.',
   },
   footer: {
     ctaTitle: 'Join our community',

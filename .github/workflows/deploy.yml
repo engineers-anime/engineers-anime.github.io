@@ -38,6 +38,8 @@ jobs:
 
       - name: Build Astro site
         run: npm run build
+        env:
+          SUZURI_API_KEY: ${{ secrets.SUZURI_API_KEY }}
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
