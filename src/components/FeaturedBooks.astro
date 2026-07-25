@@ -65,7 +65,7 @@ const bookDetails = await Promise.all(
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
         bookDetails.map((book) => (
-          <Card img={book.image} url={book.url} headingLevel="h2" title={book.title}>
+          <Card class="product-card book-card" img={book.image} url={book.url} headingLevel="h2" title={book.title}>
             <p class="line-clamp-4">{book.description}</p>
           </Card>
         ))

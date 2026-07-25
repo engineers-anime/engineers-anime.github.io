@@ -67,7 +67,13 @@ if (apiKey) {
       {
         products.length > 0 ? (
           products.map((product) => (
-            <Card img={product.sampleImageUrl} url={product.sampleUrl} headingLevel="h2" title={product.title}>
+            <Card
+              class="product-card"
+              img={product.sampleImageUrl}
+              url={product.sampleUrl}
+              headingLevel="h2"
+              title={product.title}
+            >
               <div class="flex flex-col gap-2 text-sm">
                 {product.item?.humanizeName && (
                   <div class="flex items-center gap-2">

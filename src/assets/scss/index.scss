@@ -6,3 +6,29 @@
 @use 'base/general';
 @use 'base/mixins';
 @use 'base/utility';
+
+.product-card {
+  .image {
+    background-color: #fff;
+    padding-inline: 0.75rem;
+    padding-block: 0;
+  }
+
+  .image img {
+    object-fit: contain;
+  }
+
+  &:has(a:hover, a:focus-visible) .image img {
+    transform: none;
+  }
+}
+
+.book-card {
+  .image {
+    background-color: light-dark(#f7f7f5, color-mix(in srgb, var(--background-color) 88%, var(--foreground-color)));
+  }
+
+  .image img {
+    filter: drop-shadow(0 1px 3px rgb(0 0 0 / 16%));
+  }
+}
