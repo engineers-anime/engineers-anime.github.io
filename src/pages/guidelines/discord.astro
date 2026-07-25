@@ -1,0 +1,32 @@
+---
+import GuidelineLayout from '@components/GuidelineLayout.astro'
+import { Heading } from 'accessible-astro-components'
+import { guidelineCopy } from '../../data/guidelines'
+import { getLocale } from '../../i18n'
+
+const locale = getLocale(Astro.url.pathname)
+const copy = guidelineCopy[locale].discord
+const backHref = locale === 'en' ? '/en/guidelines/' : '/guidelines/'
+---
+
+<GuidelineLayout title={copy.title} description={copy.description} audience={copy.audience} backHref={backHref}>
+  <p>{copy.intro}</p>
+
+  <Heading level="h2" size="h4">{copy.prohibitedTitle}</Heading>
+  <p>{copy.prohibitedIntro}</p>
+  <ul>
+    {copy.prohibited.map((item) => <li>{item}</li>)}
+  </ul>
+
+  <Heading level="h2" size="h4">{copy.operationTitle}</Heading>
+  <ul>
+    {copy.operation.map((item) => <li>{item}</li>)}
+  </ul>
+
+  <Heading level="h2" size="h4">{copy.otherTitle}</Heading>
+  <ul>
+    {copy.other.map((item) => <li>{item}</li>)}
+  </ul>
+
+  <p class="closing">{copy.closing}</p>
+</GuidelineLayout>

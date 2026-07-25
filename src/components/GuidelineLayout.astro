@@ -1,0 +1,80 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import { Heading, Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+
+interface Props {
+  title: string
+  description: string
+  audience: string
+  backHref: string
+}
+
+const { title, description, audience, backHref } = Astro.props
+const isEnglish = backHref.startsWith('/en/')
+const homeHref = isEnglish ? '/en/' : '/'
+const homeLabel = isEnglish ? 'Home' : 'トップ'
+const guidelinesLabel = isEnglish ? 'Participation Guidelines' : '参加ガイドライン'
+---
+
+<DefaultLayout title={title} description={description}>
+  <div class="container my-32 max-w-4xl">
+    <nav aria-label={isEnglish ? 'Breadcrumb' : 'パンくずリスト'} class="mb-8">
+      <ol class="flex flex-wrap items-center gap-2 text-sm">
+        <li><Link href={homeHref}>{homeLabel}</Link></li>
+        <li aria-hidden="true"><Icon name="lucide:chevron-right" size="1rem" /></li>
+        <li><Link href={backHref}>{guidelinesLabel}</Link></li>
+        <li aria-hidden="true"><Icon name="lucide:chevron-right" size="1rem" /></li>
+        <li aria-current="page">{title}</li>
+      </ol>
+    </nav>
+    <Heading level="h1" size="h2" class="mb-6">{title}</Heading>
+    <p class="mb-8 text-xl leading-relaxed">{description}</p>
+    <p class="audience mb-12 flex items-start gap-3 rounded-2xl p-5 font-bold">
+      <Icon aria-hidden="true" class="mt-0.5 shrink-0" name="lucide:users" size="1.4rem" />
+      {audience}
+    </p>
+    <article class="guideline-content">
+      <slot />
+    </article>
+  </div>
+</DefaultLayout>
+
+<style>
+  .audience {
+    background: color-mix(in srgb, var(--brand-primary) 12%, var(--background-color));
+  }
+
+  .guideline-content :global(h2) {
+    margin-block: 3rem 1.25rem;
+  }
+
+  .guideline-content :global(p) {
+    line-height: 1.85;
+  }
+
+  .guideline-content :global(ul) {
+    margin-block: 1rem 2rem;
+    padding-inline-start: 1.5rem;
+    list-style: disc;
+  }
+
+  .guideline-content :global(li) {
+    margin-block: 0.75rem;
+    line-height: 1.75;
+  }
+
+  .guideline-content :global(.closing) {
+    margin-top: 2rem;
+    border-radius: 1rem;
+    background: color-mix(in srgb, var(--brand-secondary) 13%, var(--background-color));
+    padding: 1.25rem;
+    font-weight: 700;
+  }
+
+  .guideline-content :global(.credit) {
+    opacity: 0.8;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+  }
+</style>

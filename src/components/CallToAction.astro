@@ -1,6 +1,7 @@
 ---
 import { Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
+import { getTranslations } from '../i18n'
 
 /**
  * CallToAction Component
@@ -37,6 +38,8 @@ const {
   secondaryLink = 'https://discord.gg/dgPWe6rNWS',
   secondaryLinkText = 'Discordに参加',
 } = Astro.props
+const t = getTranslations(Astro.url.pathname)
+const discordGuidelinesHref = Astro.url.pathname.startsWith('/en') ? '/en/guidelines/discord/' : '/guidelines/discord/'
 ---
 
 <div class="container">
@@ -56,6 +59,10 @@ const {
         </Link>
       </div>
     </div>
+    <Link href={discordGuidelinesHref} class="guideline-link inline-flex items-center gap-2">
+      <Icon aria-hidden="true" name="lucide:shield-check" size="1.25rem" />
+      {t.footer.discordGuidelines}
+    </Link>
   </div>
 </div>
 
@@ -88,5 +95,10 @@ const {
     :global(.button) {
       color: #5865f2 !important;
     }
+  }
+
+  .guideline-link {
+    margin-top: -1.5rem;
+    color: inherit;
   }
 </style>

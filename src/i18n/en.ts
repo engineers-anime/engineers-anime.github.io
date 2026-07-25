@@ -53,6 +53,7 @@ export default {
     faqIntro: 'Common questions about joining the community and taking part in our activities.',
     followX: 'Follow on X',
     joinDiscord: 'Join Discord',
+    guidelines: 'Participation Guidelines',
     faqBeginner: 'Can beginners join?',
     faqBeginnerAnswer:
       'Absolutely. Everyone is welcome, regardless of experience, as long as you enjoy anime or are interested in engineering.',
@@ -81,6 +82,7 @@ export default {
     location: 'Location:',
     empty: 'There are no upcoming events at the moment. Follow us on X for announcements.',
     more: 'View past events on connpass',
+    guidelines: 'Review the event guidelines before attending',
   },
   notes: {
     author: 'Author:',
@@ -122,5 +124,9 @@ export default {
     community: 'Community',
     illustration: 'Illustration',
     logo: 'Logo',
+    guidelinesHeading: 'Guidelines',
+    eventGuidelines: 'Event Participation Guidelines',
+    discordRules: 'Discord Server Rules',
+    discordGuidelines: 'Review the server rules before joining Discord',
   },
 }

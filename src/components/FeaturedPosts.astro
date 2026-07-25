@@ -42,6 +42,7 @@ interface Post {
 const { class: className, limit = 6, title = '近日開催の勉強会' } = Astro.props
 const t = getTranslations(Astro.url.pathname)
 const sectionTitle = title === '近日開催の勉強会' ? t.upcomingEvents.title : title
+const eventGuidelinesHref = Astro.url.pathname.startsWith('/en') ? '/en/guidelines/events/' : '/guidelines/events/'
 
 // Fetch study groups from Connpass RSS
 const parser = new Parser()
@@ -158,10 +159,14 @@ try {
         )
       }
     </div>
-    <div class="mt-12">
+    <div class="mt-12 flex flex-wrap items-center gap-x-6 gap-y-4">
       <Link href="https://engineers-anime.connpass.com/" isButton isExternal animateOnHover animationType="nudge">
         {t.upcomingEvents.more}
         <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
+      </Link>
+      <Link href={eventGuidelinesHref} class="inline-flex items-center gap-2">
+        <Icon aria-hidden="true" name="lucide:shield-check" size="1.25rem" />
+        {t.upcomingEvents.guidelines}
       </Link>
     </div>
   </div>

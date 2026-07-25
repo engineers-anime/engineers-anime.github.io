@@ -11,13 +11,16 @@ import { getTranslations } from '../i18n'
  */
 const currentYear = new Date().getFullYear()
 const t = getTranslations(Astro.url.pathname)
+const isEnglish = Astro.url.pathname.startsWith('/en')
+const eventGuidelinesHref = isEnglish ? '/en/guidelines/events/' : '/guidelines/events/'
+const discordGuidelinesHref = isEnglish ? '/en/guidelines/discord/' : '/guidelines/discord/'
 ---
 
 <footer>
   <CallToAction title={t.footer.ctaTitle} linkText={t.footer.followX} secondaryLinkText={t.footer.joinDiscord} />
   <section class="py-20">
     <Heading level="h2" class="sr-only">Footer</Heading>
-    <div class="container grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="container grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
       <div class="flex flex-col gap-4">
         <Logo loading="lazy" isLink={false} />
         <p class="leading-[1.75]">
@@ -42,6 +45,17 @@ const t = getTranslations(Astro.url.pathname)
           </li>
           <li>
             <Link isExternal href="https://github.com/engineers-anime">GitHub</Link>
+          </li>
+        </ul>
+      </div>
+      <div class="flex flex-col gap-4">
+        <Heading level="h3" size="h6">{t.footer.guidelinesHeading}</Heading>
+        <ul class="flex flex-col gap-2">
+          <li>
+            <Link href={eventGuidelinesHref}>{t.footer.eventGuidelines}</Link>
+          </li>
+          <li>
+            <Link href={discordGuidelinesHref}>{t.footer.discordRules}</Link>
           </li>
         </ul>
       </div>

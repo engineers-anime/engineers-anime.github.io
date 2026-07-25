@@ -1,0 +1,38 @@
+---
+import GuidelineLayout from '@components/GuidelineLayout.astro'
+import { Heading, Link } from 'accessible-astro-components'
+import { guidelineCopy } from '../../data/guidelines'
+import { getLocale } from '../../i18n'
+
+const locale = getLocale(Astro.url.pathname)
+const copy = guidelineCopy[locale].events
+const backHref = locale === 'en' ? '/en/guidelines/' : '/guidelines/'
+---
+
+<GuidelineLayout title={copy.title} description={copy.description} audience={copy.audience} backHref={backHref}>
+  <Heading level="h2" size="h4">{copy.noticesTitle}</Heading>
+  <ul>
+    {copy.notices.map((notice) => <li>{notice}</li>)}
+    <li>
+      {copy.citationBefore}<Link isExternal href="https://www.ccile.otemon.ac.jp/copyright/citation/"
+        >{copy.citationLink}</Link
+      >{copy.citationAfter}
+    </li>
+  </ul>
+  <p>{copy.removal}</p>
+  <ul>
+    {copy.removalItems.map((item) => <li>{item}</li>)}
+  </ul>
+  <p>{copy.acknowledgement}</p>
+
+  <Heading level="h2" size="h4">{copy.conductTitle}</Heading>
+  <p>{copy.conduct}</p>
+  <div class="credit">
+    <p>
+      {copy.creditLabel}: <Link isExternal href="http://2012.jsconf.us/#/about">JSConf US 2012</Link> &amp; The Ada Initiative
+    </p>
+    <p>
+      <Link isExternal href="https://creativecommons.org/licenses/by/3.0/">{copy.license}</Link>
+    </p>
+  </div>
+</GuidelineLayout>

@@ -50,6 +50,7 @@ export default {
     faqIntro: 'コミュニティへの参加や活動に関するよくある質問をまとめています。',
     followX: 'Xをフォロー',
     joinDiscord: 'Discordに参加',
+    guidelines: '参加ガイドライン',
     faqBeginner: '初心者でも参加できますか？',
     faqBeginnerAnswer: 'もちろんです！アニメが好き、またはエンジニアリングに興味がある方なら、経験を問わず大歓迎です。',
     faqLocation: '主な活動場所はどこですか？',
@@ -74,6 +75,7 @@ export default {
     location: '場所:',
     empty: '現在、近日開催予定の勉強会はありません。Xでの告知をお待ちください！',
     more: '過去の勉強会を見る（connpass）',
+    guidelines: '参加前にイベントガイドラインを確認',
   },
   notes: {
     author: '投稿者:',
@@ -111,5 +113,9 @@ export default {
     community: 'コミュニティ',
     illustration: 'イラスト',
     logo: 'ロゴ',
+    guidelinesHeading: 'ガイドライン',
+    eventGuidelines: 'イベント参加ガイドライン',
+    discordRules: 'Discordサーバー利用規約',
+    discordGuidelines: 'Discord参加前にサーバー利用規約を確認',
   },
 }

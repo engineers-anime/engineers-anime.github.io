@@ -56,6 +56,7 @@ try {
 
 const bookCount = books.length.toString()
 const copy = getTranslations(Astro.url.pathname).home
+const guidelinesHref = Astro.url.pathname.startsWith('/en') ? '/en/guidelines/' : '/guidelines/'
 ---
 
 <DefaultLayout title={copy.pageTitle} useTitleTemplate={false}>
@@ -130,6 +131,10 @@ const copy = getTranslations(Astro.url.pathname).home
               {copy.joinDiscord}
             </Link>
           </div>
+          <Link href={guidelinesHref} isButton type="secondary" animateOnHover animationType="boop">
+            <Icon aria-hidden="true" name="lucide:shield-check" size=" 1.5rem" />
+            {copy.guidelines}
+          </Link>
         </div>
       </div>
       <div class="space-content">

@@ -1,0 +1,54 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import { Heading, Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+import { guidelineCopy } from '../../data/guidelines'
+import { getLocale } from '../../i18n'
+
+const locale = getLocale(Astro.url.pathname)
+const copy = guidelineCopy[locale]
+const prefix = locale === 'en' ? '/en' : ''
+const homeHref = locale === 'en' ? '/en/' : '/'
+---
+
+<DefaultLayout title={copy.hub.title} description={copy.hub.description}>
+  <div class="container my-32 max-w-5xl">
+    <nav aria-label={locale === 'en' ? 'Breadcrumb' : 'パンくずリスト'} class="mb-8">
+      <ol class="flex flex-wrap items-center gap-2 text-sm">
+        <li><Link href={homeHref}>{locale === 'en' ? 'Home' : 'トップ'}</Link></li>
+        <li aria-hidden="true"><Icon name="lucide:chevron-right" size="1rem" /></li>
+        <li aria-current="page">{copy.hub.title}</li>
+      </ol>
+    </nav>
+    <Heading level="h1" size="h2" class="mb-6">{copy.hub.title}</Heading>
+    <p class="mb-12 max-w-3xl text-xl leading-relaxed">{copy.hub.intro}</p>
+    <div class="grid gap-6 md:grid-cols-2">
+      <article class="guideline-card flex flex-col items-start rounded-3xl p-8">
+        <Icon aria-hidden="true" name="lucide:presentation" size="2.5rem" />
+        <Heading level="h2" size="h4" class="mt-5 mb-3">{copy.hub.eventsTitle}</Heading>
+        <p class="mb-8 grow leading-relaxed">{copy.hub.eventsDescription}</p>
+        <Link href={`${prefix}/guidelines/events/`} isButton type="primary" animateOnHover animationType="boop">
+          {copy.hub.read}
+          <Icon aria-hidden="true" name="lucide:arrow-right" size="1.25rem" />
+        </Link>
+      </article>
+      <article class="guideline-card flex flex-col items-start rounded-3xl p-8">
+        <Icon aria-hidden="true" name="simple-icons:discord" size="2.5rem" />
+        <Heading level="h2" size="h4" class="mt-5 mb-3">{copy.hub.discordTitle}</Heading>
+        <p class="mb-8 grow leading-relaxed">{copy.hub.discordDescription}</p>
+        <Link href={`${prefix}/guidelines/discord/`} isButton type="primary" animateOnHover animationType="boop">
+          {copy.hub.read}
+          <Icon aria-hidden="true" name="lucide:arrow-right" size="1.25rem" />
+        </Link>
+      </article>
+    </div>
+  </div>
+</DefaultLayout>
+
+<style>
+  .guideline-card {
+    box-shadow: 0 1rem 3rem rgb(0 0 0 / 6%);
+    border: 1px solid var(--border-color-subtle);
+    background: color-mix(in srgb, var(--background-color) 88%, var(--brand-primary));
+  }
+</style>

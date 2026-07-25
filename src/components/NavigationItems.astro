@@ -6,6 +6,9 @@ import { getTranslations } from '../i18n'
 
 const t = getTranslations(Astro.url.pathname)
 const getNavigationLabel = (label: string) => (label === 'Xをフォロー' ? t.navigation.followX : label)
+const languageHref = Astro.url.pathname.startsWith('/en')
+  ? Astro.url.pathname.replace(/^\/en(?=\/|$)/, '') || '/'
+  : `/en${Astro.url.pathname}`
 
 /**
  * Navigation Items Component
@@ -73,7 +76,7 @@ const getNavigationLabel = (label: string) => (label === 'Xをフォロー' ? t.
     </div>
   </li>
   <li class="menu-item type-icon language-switcher">
-    <Link href={t.navigation.languageHref} data-language={t.navigation.languageCode} hideIcon>
+    <Link href={languageHref} data-language={t.navigation.languageCode} hideIcon>
       <span class="icon-link-content">
         <Icon aria-hidden="true" name="lucide:languages" size="32" />
         <span class="icon-label">{t.navigation.languageLabel}</span>
