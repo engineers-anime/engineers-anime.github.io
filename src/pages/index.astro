@@ -57,6 +57,7 @@ try {
 const bookCount = books.length.toString()
 const copy = getTranslations(Astro.url.pathname).home
 const guidelinesHref = Astro.url.pathname.startsWith('/en') ? '/en/guidelines/' : '/guidelines/'
+const contactHref = Astro.url.pathname.startsWith('/en') ? '/en/contact/' : '/contact/'
 ---
 
 <DefaultLayout title={copy.pageTitle} useTitleTemplate={false}>
@@ -134,6 +135,10 @@ const guidelinesHref = Astro.url.pathname.startsWith('/en') ? '/en/guidelines/' 
           <Link href={guidelinesHref} isButton type="secondary" animateOnHover animationType="boop">
             <Icon aria-hidden="true" name="lucide:shield-check" size=" 1.5rem" />
             {copy.guidelines}
+          </Link>
+          <Link href={contactHref} isButton type="secondary" animateOnHover animationType="boop">
+            <Icon aria-hidden="true" name="lucide:mail" size=" 1.5rem" />
+            {copy.contact}
           </Link>
         </div>
       </div>

@@ -54,6 +54,7 @@ export default {
     followX: 'Follow on X',
     joinDiscord: 'Join Discord',
     guidelines: 'Participation Guidelines',
+    contact: 'Contact',
     faqBeginner: 'Can beginners join?',
     faqBeginnerAnswer:
       'Absolutely. Everyone is welcome, regardless of experience, as long as you enjoy anime or are interested in engineering.',
@@ -124,6 +125,7 @@ export default {
     community: 'Community',
     illustration: 'Illustration',
     logo: 'Logo',
+    contact: 'Contact',
     guidelinesHeading: 'Guidelines',
     eventGuidelines: 'Event Participation Guidelines',
     discordRules: 'Discord Server Rules',

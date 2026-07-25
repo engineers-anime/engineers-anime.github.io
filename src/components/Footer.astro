@@ -14,6 +14,7 @@ const t = getTranslations(Astro.url.pathname)
 const isEnglish = Astro.url.pathname.startsWith('/en')
 const eventGuidelinesHref = isEnglish ? '/en/guidelines/events/' : '/guidelines/events/'
 const discordGuidelinesHref = isEnglish ? '/en/guidelines/discord/' : '/guidelines/discord/'
+const contactHref = isEnglish ? '/en/contact/' : '/contact/'
 ---
 
 <footer>
@@ -27,6 +28,9 @@ const discordGuidelinesHref = isEnglish ? '/en/guidelines/discord/' : '/guidelin
           {t.footer.description}<br />
           {t.footer.organizer}: <Link isExternal href="https://x.com/uutan1108">うーたん</Link>
         </p>
+        <Link href={contactHref} class="inline-flex items-center gap-2 self-start">
+          {t.footer.contact}
+        </Link>
       </div>
       <div class="flex flex-col gap-4">
         <Heading level="h3" size="h6">{t.footer.community}</Heading>
