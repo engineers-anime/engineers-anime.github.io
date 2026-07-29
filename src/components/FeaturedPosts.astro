@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components'
 import Parser from 'rss-parser'
 import { parse } from 'node-html-parser'
 import { getTranslations } from '../i18n'
+import { sortByTimestamp } from '../utils/sortByTimestamp'
 
 /**
  * FeaturedPosts Component
@@ -36,6 +37,7 @@ interface Post {
   featuredImage: string | null
   url: string
   pubDate: string
+  eventTimestamp: number | null
   isUpcoming: boolean
 }
 
@@ -77,10 +79,14 @@ try {
       const eventLocation = locationMatch ? locationMatch[1] : ''
 
       let isUpcoming = true
+      let eventTimestamp: number | null = null
       if (eventDateStr) {
         const startDateStr = eventDateStr.split(' ～ ')[0]
         const eventStartDate = new Date(startDateStr.replace(/\//g, '-'))
-        isUpcoming = eventStartDate >= now
+        if (!Number.isNaN(eventStartDate.getTime())) {
+          eventTimestamp = eventStartDate.getTime()
+          isUpcoming = eventStartDate >= now
+        }
       }
 
       let cleanDescription = summary
@@ -99,12 +105,17 @@ try {
         featuredImage: ogImage || null,
         url: item.link || '',
         pubDate: item.pubDate || item.isoDate || '',
+        eventTimestamp,
         isUpcoming,
       }
     }),
   )
 
-  featuredPosts = allPosts.filter((post) => post.isUpcoming).slice(0, limit)
+  featuredPosts = sortByTimestamp(
+    allPosts.filter((post) => post.isUpcoming),
+    (post) => post.eventTimestamp,
+    'asc',
+  ).slice(0, limit)
 } catch (error) {
   console.error('Error fetching Connpass RSS:', error)
 }

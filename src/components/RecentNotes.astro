@@ -4,6 +4,7 @@ import { Icon } from 'astro-icon/components'
 import Parser from 'rss-parser'
 import { magazineUrls } from '../data/note-magazines'
 import { getTranslations } from '../i18n'
+import { sortByTimestamp } from '../utils/sortByTimestamp'
 
 /**
  * RecentNotes Component
@@ -111,7 +112,7 @@ try {
   )
 
   // Sort by date (newest first)
-  recentNotes = allItems.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()).slice(0, limit)
+  recentNotes = sortByTimestamp(allItems, (post) => post.pubDate).slice(0, limit)
 } catch (error) {
   console.error('Error processing note feeds:', error)
 }

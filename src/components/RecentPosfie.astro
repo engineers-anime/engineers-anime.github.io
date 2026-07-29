@@ -3,6 +3,7 @@ import { Card, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { parse } from 'node-html-parser'
 import { getTranslations } from '../i18n'
+import { sortByTimestamp } from '../utils/sortByTimestamp'
 
 interface Props {
   class?: string
@@ -46,19 +47,20 @@ try {
       }
     })
     .filter((post) => post.title)
-    .slice(0, limit)
 
   posts = await Promise.all(
-    candidates.map(async (post) => {
-      if (!post.image) return post
+    sortByTimestamp(candidates, (post) => post.publishedAt)
+      .slice(0, limit)
+      .map(async (post) => {
+        if (!post.image) return post
 
-      try {
-        const imageResponse = await fetch(post.image, { method: 'HEAD' })
-        return imageResponse.ok ? post : { ...post, image: null }
-      } catch {
-        return { ...post, image: null }
-      }
-    }),
+        try {
+          const imageResponse = await fetch(post.image, { method: 'HEAD' })
+          return imageResponse.ok ? post : { ...post, image: null }
+        } catch {
+          return { ...post, image: null }
+        }
+      }),
   )
 } catch (error) {
   console.error('Error fetching Posfie posts:', error)
