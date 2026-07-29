@@ -1,5 +1,7 @@
 # エンジニアニメ (engineers-anime)
 
+[![Deploy Astro site](https://github.com/engineers-anime/engineers-anime.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/engineers-anime/engineers-anime.github.io/actions/workflows/deploy.yml)
+
 [https://engineers-anime.github.io/](https://engineers-anime.github.io/)
 
 ## 🔄 コンテンツの更新方法
