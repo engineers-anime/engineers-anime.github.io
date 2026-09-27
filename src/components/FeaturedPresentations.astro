@@ -1,0 +1,115 @@
+---
+import { Card, Heading, Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+import { parse } from 'node-html-parser'
+import { getTranslations } from '../i18n'
+
+interface Props {
+  class?: string
+  limit?: number
+}
+
+interface Presentation {
+  title: string
+  url: string
+  image: string | null
+  speaker: string
+  speakerImage: string | null
+  eventTitle: string
+}
+
+const { class: className, limit = 6 } = Astro.props
+const t = getTranslations(Astro.url.pathname)
+const presentationsUrl = 'https://engineers-anime.connpass.com/presentation/'
+let presentations: Presentation[] = []
+
+try {
+  const response = await fetch(presentationsUrl, {
+    headers: { 'User-Agent': 'Mozilla/5.0' },
+  })
+
+  if (!response.ok) throw new Error(`Status code ${response.status}`)
+
+  const root = parse(await response.text())
+
+  presentations = root
+    .querySelectorAll('.event_doc_area')
+    .flatMap((event) => {
+      const eventTitle = event.querySelector('.title_3 > a.left')?.text.trim() || ''
+
+      return event.querySelectorAll('.thumb210_block > li').map((item) => {
+        const presentationLink = item.querySelector(':scope > a')
+        const imageStyle = item.querySelector('.thumbnail_img')?.getAttribute('style') || ''
+        const imageMatch = imageStyle.match(/background-image:\s*url\(["']?(.+?)["']?\)/)
+
+        return {
+          title: item.querySelector('.doc_title')?.text.trim() || '',
+          url: presentationLink?.getAttribute('href') || presentationsUrl,
+          image: imageMatch?.[1] || null,
+          speaker: item.querySelector('.user_name')?.text.trim() || '',
+          speakerImage: item.querySelector('.presen_user img')?.getAttribute('src') || null,
+          eventTitle,
+        }
+      })
+    })
+    .filter((presentation) => presentation.title)
+    .slice(0, limit)
+} catch (error) {
+  console.error('Error fetching Connpass presentations:', error)
+}
+---
+
+<section id="presentations" class:list={[className, 'my-64']}>
+  <div class="container">
+    <Heading level="h2" class="mb-6">{t.presentations.title}</Heading>
+    <p class="mb-8 text-xl">{t.presentations.description}</p>
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+      {
+        presentations.length > 0 ? (
+          presentations.map((presentation) => (
+            <Card
+              img={presentation.image || 'https://placehold.co/640x360?text=No+Image'}
+              url={presentation.url}
+              headingLevel="h2"
+              title={presentation.title}
+            >
+              <div class="flex flex-col gap-2 text-sm">
+                <div class="flex items-center gap-2">
+                  {presentation.speakerImage ? (
+                    <img
+                      src={presentation.speakerImage}
+                      alt=""
+                      class="h-6 w-6 rounded-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <Icon name="lucide:user" size="1.2rem" class="text-primary-500" />
+                  )}
+                  <span>
+                    <strong>{t.presentations.speaker}</strong> {presentation.speaker || t.presentations.unknownSpeaker}
+                  </span>
+                </div>
+                {presentation.eventTitle && (
+                  <div class="flex items-start gap-2">
+                    <Icon name="lucide:calendar-days" size="1.2rem" class="text-primary-500 mt-0.5" />
+                    <span>
+                      <strong>{t.presentations.event}</strong> {presentation.eventTitle}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </Card>
+          ))
+        ) : (
+          <p class="text-xl">{t.presentations.empty}</p>
+        )
+      }
+    </div>
+    <div class="mt-12">
+      <Link href={presentationsUrl} isButton isExternal animateOnHover animationType="nudge">
+        {t.presentations.more}
+        <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
+      </Link>
+    </div>
+  </div>
+</section>

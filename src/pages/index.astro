@@ -6,6 +6,7 @@ import Counter from '@components/Counter.astro'
 import ContentMedia from '@components/ContentMedia.astro'
 import Slideshow from '@components/Slideshow.astro'
 import FeaturedPosts from '@components/FeaturedPosts.astro'
+import FeaturedPresentations from '@components/FeaturedPresentations.astro'
 import RecentNotes from '@components/RecentNotes.astro'
 import RecentPosfie from '@components/RecentPosfie.astro'
 import FeaturedBooks from '@components/FeaturedBooks.astro'
@@ -89,16 +90,8 @@ const contactHref = Astro.url.pathname.startsWith('/en') ? '/en/contact/' : '/co
     <p class="text-2xl">{copy.booksDetail}</p>
   </ContentMedia>
   <FeaturedPosts />
+  <FeaturedPresentations />
   <RecentNotes title={copy.officialNotes} description={copy.officialNotesDescription} />
-  <RecentNotes
-    sectionId="community-note-posts"
-    title={copy.communityBlogs}
-    description={copy.communityBlogsDescription}
-    feedUrls={['https://note.com/hashtag/エンジニアニメ/rss']}
-    moreHref="https://note.com/hashtag/エンジニアニメ"
-    moreLabel={copy.moreCommunityNotes}
-    emptyMessage={copy.noCommunityNotes}
-  />
   <RecentPosfie />
   <FeaturedBooks />
   <CharacterGoods />

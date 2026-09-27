@@ -44,11 +44,6 @@ export default {
     officialNotes: 'Official EngineerAnime Articles',
     officialNotesDescription:
       'News and official articles from the EngineerAnime organizers. The linked articles are available in Japanese.',
-    communityBlogs: 'Community Member Reflections',
-    communityBlogsDescription:
-      'Reflections from people who joined EngineerAnime events and activities. The linked articles are available in Japanese.',
-    moreCommunityNotes: 'View community reflections on note',
-    noCommunityNotes: 'No community reflections are available right now.',
     faq: 'Frequently Asked Questions',
     faqIntro: 'Common questions about joining the community and taking part in our activities.',
     followX: 'Follow on X',
@@ -84,6 +79,16 @@ export default {
     empty: 'There are no upcoming events at the moment. Follow us on X for announcements.',
     more: 'View past events on connpass',
     guidelines: 'Review the event guidelines before attending',
+  },
+  presentations: {
+    title: 'Presentation Slides',
+    description:
+      'Explore presentation slides shared at EngineerAnime meetups. The linked presentations are primarily available in Japanese.',
+    speaker: 'Speaker:',
+    unknownSpeaker: 'Unknown',
+    event: 'Event:',
+    empty: 'No presentation slides are available right now.',
+    more: 'View more presentations on connpass',
   },
   notes: {
     author: 'Author:',
